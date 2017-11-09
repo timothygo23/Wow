@@ -69,7 +69,6 @@ public class Adventure extends AppCompatActivity implements StepCounterListener 
         super.onStop();
         if(stepCounter.isActive()) {
             //add persistent notif
-            //branchdev
         }
     }
 
