@@ -1,9 +1,12 @@
 package com.agorda.wow;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -19,6 +22,9 @@ public class Adventure extends AppCompatActivity implements StepCounterListener 
 
     private TextView adventure_tv_steps;
     private ToggleButton adventure_tb_walk;
+
+    public static final int NOTIFICATION_ID = 0;
+    public static final int PENDING_INTENT_ID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +75,22 @@ public class Adventure extends AppCompatActivity implements StepCounterListener 
         super.onStop();
         if(stepCounter.isActive()) {
             //add persistent notif
+            NotificationManager notificationManager = (NotificationManager) getSystemService (NOTIFICATION_SERVICE);
+
+            Intent i = new Intent (this, Adventure.class);
+            i.setAction(Intent.ACTION_MAIN);
+            i.addCategory(Intent.CATEGORY_LAUNCHER);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PendingIntent pi = PendingIntent.getActivity(this, PENDING_INTENT_ID, i, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            NotificationCompat.Builder builder = (NotificationCompat.Builder) new NotificationCompat.Builder (this)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle ("You are walking")
+                    .setContentText ("xD")
+                    .setOngoing (true)
+                    .setContentIntent (pi);
+
+            notificationManager.notify(NOTIFICATION_ID, builder.build ());
         }
     }
 
@@ -77,6 +99,8 @@ public class Adventure extends AppCompatActivity implements StepCounterListener 
         super.onResume();
         if(stepCounter.isActive()){
             //remove persistent notif
+            NotificationManager notificationManager = (NotificationManager) getSystemService (NOTIFICATION_SERVICE);
+            notificationManager.cancel(NOTIFICATION_ID);
         }
     }
 }

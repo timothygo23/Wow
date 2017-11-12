@@ -23,7 +23,8 @@
         <activity android:name=".Town"
             android:screenOrientation="portrait"/>
         <activity android:name=".Adventure"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>
