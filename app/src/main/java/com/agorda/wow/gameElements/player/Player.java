@@ -27,6 +27,10 @@ public class Player {
         this.currentTown = currentTown;
     }
 
+    public void loadPlayer () {
+
+    }
+
     public void setDestination(Destination destination){
         this.destination = destination;
     }

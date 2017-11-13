@@ -3,7 +3,9 @@ package com.agorda.wow;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.SensorManager;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
@@ -30,6 +32,8 @@ public class Adventure extends AppCompatActivity implements StepCounterListener 
     private boolean isVisible; //if the activity is onResume or onStop
     private NotificationCreator notificationCreator;
 
+    private SharedPreferences dsp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +43,19 @@ public class Adventure extends AppCompatActivity implements StepCounterListener 
         SensorManager sensorManager = (SensorManager)getSystemService(getBaseContext().SENSOR_SERVICE);
         stepCounter = new StepCounter(sensorManager, this);
 
-        player = new Player("tim", new com.agorda.wow.gameElements.town.Town("town1", "", 0));
+        dsp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        //load player
+        player = new Player(dsp.getString("name", "").toString(), new com.agorda.wow.gameElements.town.Town("town1", "", 0));
         player.setDestination(new Destination(player.getCurrentTown(), new com.agorda.wow.gameElements.town.Town("town2","This new town is nice.",12)));
+
+        player.getData().setLevel(dsp.getInt("level", 1));
+        player.getData().setXP(dsp.getInt("XP", 1));
+        player.getData().setGold(dsp.getInt("gold", 1));
+        player.getData().setHP(dsp.getInt("HP", 15));
+        player.getData().setMP(dsp.getInt("MP", 15));
+        player.getData().setMaxHP(dsp.getInt("maxHP", 15));
+        player.getData().setMaxpMP(dsp.getInt("maxMP", 15));
 
         adventure_tv_steps = (TextView)findViewById(R.id.adventure_tv_steps);
 
