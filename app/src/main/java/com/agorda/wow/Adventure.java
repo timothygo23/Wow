@@ -14,7 +14,6 @@ import android.widget.ToggleButton;
 import com.agorda.wow.gameElements.player.Destination;
 import com.agorda.wow.gameElements.player.Player;
 import com.agorda.wow.gameElements.player.PlayerState;
-import com.agorda.wow.service.WalkingService;
 import com.agorda.wow.util.NotificationCreator;
 import com.agorda.wow.util.NotificationUtil;
 import com.agorda.wow.util.StepCounter;
