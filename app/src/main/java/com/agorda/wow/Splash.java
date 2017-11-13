@@ -1,9 +1,12 @@
 package com.agorda.wow;
 
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.agorda.wow.util.NotificationUtil;
 
 public class Splash extends AppCompatActivity {
     private final int loadTime = 1500;

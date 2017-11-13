@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.agorda.wow">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,13 +20,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Setup"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Town"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Adventure"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"></activity>
+        <activity
+            android:name=".Setup"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Town"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Adventure"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Fight"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name=".WalkingService"
+            android:enabled="true"
+            android:exported="true"
+            android:stopWithTask="false"></service>
     </application>
 
 </manifest>

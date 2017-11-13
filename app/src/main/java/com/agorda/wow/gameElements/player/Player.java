@@ -4,6 +4,7 @@ import com.agorda.wow.gameElements.equipment.Armor;
 import com.agorda.wow.gameElements.equipment.Equipment;
 import com.agorda.wow.gameElements.equipment.Potion;
 import com.agorda.wow.gameElements.equipment.Weapon;
+import com.agorda.wow.gameElements.town.Town;
 
 import java.util.ArrayList;
 
@@ -13,12 +14,17 @@ import java.util.ArrayList;
 
 public class Player {
     private PlayerData data;
+    private PlayerState state;
+
+    private Town currentTown;
     private Destination destination;
+
     private ArrayList<Equipment> items;
 
-    public Player(String name){
+    public Player(String name, Town currentTown){
         data = new PlayerData(name);
         items = new ArrayList<Equipment>();
+        this.currentTown = currentTown;
     }
 
     public void setDestination(Destination destination){
@@ -59,5 +65,21 @@ public class Player {
 
     public Destination getDestination(){
         return destination;
+    }
+
+    public PlayerState getState(){
+        return state;
+    }
+
+    public void setState(PlayerState state){
+        this.state = state;
+    }
+
+    public Town getCurrentTown(){
+        return currentTown;
+    }
+
+    public void setCurrentTown(Town currentTown){
+        this.currentTown = currentTown;
     }
 }

@@ -5,12 +5,13 @@ package com.agorda.wow.gameElements.town;
  */
 
 public class Town {
-    private String name;
+    private String name, description;
     private Town adjacentLeft, adjacentRight;
     private float location; //in kilometers
 
-    public Town(String name, float location){
+    public Town(String name, String description, float location){
         this.name = name;
+        this.description = description;
         this.location = location;
     }
 
@@ -33,5 +34,9 @@ public class Town {
 
     public String getName() {
         return name;
+    }
+
+    public String getDescription(){
+        return description;
     }
 }

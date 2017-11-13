@@ -1,5 +1,7 @@
 package com.agorda.wow.gameElements.player;
 
+import android.util.Log;
+
 import com.agorda.wow.gameElements.town.Town;
 
 /**
@@ -18,12 +20,13 @@ public class Destination {
 
         steps = 0;
         stepsNeeded = Math.round(Math.abs(to.getLocation() - from.getLocation())) * 500;
+
     }
 
     public boolean addStep(int a){
         steps += a;
-        System.out.println("steps left: " + (stepsNeeded - steps));
-        if(stepsNeeded == steps)
+
+        if(stepsNeeded != steps)
             return true;
         else
             return false;
@@ -35,5 +38,9 @@ public class Destination {
 
     public int getSteps(){
         return steps;
+    }
+
+    public Town getNextTown(){
+        return destination;
     }
 }

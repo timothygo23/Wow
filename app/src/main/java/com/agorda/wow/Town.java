@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.agorda.wow.gameElements.player.Destination;
 import com.agorda.wow.gameElements.player.Player;
+import com.agorda.wow.util.NotificationUtil;
 import com.agorda.wow.util.StepCounter;
 
 public class Town extends AppCompatActivity{
@@ -24,8 +25,10 @@ public class Town extends AppCompatActivity{
         town_button_adventure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //set player state to camping
                 Intent adventureActivity = new Intent(getBaseContext(), Adventure.class);
                 startActivity(adventureActivity);
+                finish();
             }
         });
     }
