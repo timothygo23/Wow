@@ -1,13 +1,10 @@
 package com.agorda.wow;
 
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -15,6 +12,7 @@ import android.widget.ToggleButton;
 import com.agorda.wow.gameElements.player.Destination;
 import com.agorda.wow.gameElements.player.Player;
 import com.agorda.wow.gameElements.player.PlayerState;
+import com.agorda.wow.service.WalkingService;
 import com.agorda.wow.util.NotificationCreator;
 import com.agorda.wow.util.NotificationUtil;
 import com.agorda.wow.util.StepCounter;
