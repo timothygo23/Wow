@@ -7,7 +7,13 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.agorda.wow.gameElements.db_constants.ObjectId;
+import com.agorda.wow.gameElements.equipment.Weapon;
+import com.agorda.wow.gameElements.player.Player;
+import com.agorda.wow.gameElements.player.PlayerState;
+import com.agorda.wow.util.DatabaseHelper;
 import com.agorda.wow.util.NotificationUtil;
 
 public class Splash extends AppCompatActivity {
@@ -19,6 +25,10 @@ public class Splash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        //sets up the db (creates it when it doesn't exists yet)
+        DatabaseHelper dbh = new DatabaseHelper(this);
+        dbh.getWritableDatabase();
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -32,26 +42,26 @@ public class Splash extends AppCompatActivity {
 
                 dsp = PreferenceManager.getDefaultSharedPreferences (getBaseContext ());
 
-                if (!dsp.contains ("is_new_player")) {
+                if (!dsp.contains("state")) {
                     Intent i = new Intent (getBaseContext(), Setup.class);
                     startActivity (i);
                     finish();
                 } else { //temporary previous activity
                     Intent i = null;
-                    switch (dsp.getInt("state", 0)) {
-                        case 0: i = new Intent (getBaseContext(), Town.class);
-                            break;
-                        case 1: i = new Intent (getBaseContext(), Adventure.class);
-                            break;
+                    PlayerState ps = PlayerState.valueOf(dsp.getString("state", "Town"));
+
+                    if(ps == PlayerState.TOWN){
+                        i = new Intent(getBaseContext(), Town.class);
+                    }else if(ps == PlayerState.WALKING || ps == PlayerState.CAMPING){
+                        i = new Intent(getBaseContext(), Adventure.class);
+                    }else if(ps == PlayerState.FIGHTING){
+                        i = new Intent(getBaseContext(), Fight.class);
                     }
+
                     startActivity(i);
                     finish();
                 }
 
-                //temp
-                /*Intent setup = new Intent(getBaseContext(), Setup.class);
-                startActivity(setup);
-                finish();*/
             }
         }, loadTime);
     }

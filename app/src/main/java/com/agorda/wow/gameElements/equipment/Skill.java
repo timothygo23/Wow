@@ -6,18 +6,20 @@ package com.agorda.wow.gameElements.equipment;
 
 public class Skill {
 
-    public static final String TABLE_NAME = "armor";
+    public static final String TABLE_NAME = "skill";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_DAMAGE = "damage";
     public static final String COLUMN_MANA_COST = "mana_cost";
-    public static final String COLUMN_BONUS = "bonus";
 
     private String name;
     private int damage, manaCost;
     private int bonus;
 
-    public Skill(String name, int damage, int manaCost){
+    private int id;
+
+    public Skill(int id, String name, int damage, int manaCost){
+        this.id = id;
         this.name = name;
         this.damage =damage;
         this.manaCost = manaCost;
@@ -47,5 +49,9 @@ public class Skill {
 
     public int getBonus() {
         return bonus;
+    }
+
+    public int getId(){
+        return id;
     }
 }

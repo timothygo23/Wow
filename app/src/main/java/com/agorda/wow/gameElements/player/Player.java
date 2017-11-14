@@ -21,14 +21,11 @@ public class Player {
 
     private ArrayList<Equipment> items;
 
-    public Player(String name, Town currentTown){
+    public Player(String name, Town currentTown, PlayerState state){
         data = new PlayerData(name);
         items = new ArrayList<Equipment>();
         this.currentTown = currentTown;
-    }
-
-    public void loadPlayer () {
-
+        this.state = state;
     }
 
     public void setDestination(Destination destination){

@@ -9,8 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.agorda.wow.gameElements.db_constants.ObjectId;
 import com.agorda.wow.gameElements.player.Destination;
 import com.agorda.wow.gameElements.player.Player;
+import com.agorda.wow.gameElements.player.PlayerState;
+import com.agorda.wow.util.DatabaseHelper;
+import com.agorda.wow.util.GameSave;
 
 public class Setup extends AppCompatActivity {
     private Button setup_button_create;
@@ -19,16 +23,17 @@ public class Setup extends AppCompatActivity {
     private SharedPreferences dsp;
     private SharedPreferences.Editor dspEditor;
 
+    private DatabaseHelper databaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
 
+        //backend elements
         dsp = PreferenceManager.getDefaultSharedPreferences (getBaseContext ());
         dspEditor = dsp.edit ();
-
-        dspEditor.putBoolean ("is_new_player", true);
-        dspEditor.apply ();
+        databaseHelper = new DatabaseHelper(this);
 
         setup_et_name = (EditText) findViewById (R.id.setup_et_name);
 
@@ -39,46 +44,31 @@ public class Setup extends AppCompatActivity {
                 //create intent for town activity
                 //create new player -> shared pref
 
-                Player player = new Player (setup_et_name.getText().toString(), new com.agorda.wow.gameElements.town.Town ("town1", "", 0));
-                player.setDestination(new Destination(player.getCurrentTown(), new com.agorda.wow.gameElements.town.Town("town2","This new town is nice.",12)));
-
-                dsp = PreferenceManager.getDefaultSharedPreferences (getBaseContext ());
-                dspEditor = dsp.edit ();
-
-                //player info
-                dspEditor.putString ("name", setup_et_name.getText().toString());
-                dspEditor.putInt("level", player.getData().getLevel());
-                dspEditor.putInt("XP", player.getData().getXP());
-                dspEditor.putInt("gold", player.getData().getGold());
-                dspEditor.putInt("HP", player.getData().getHP());
-                dspEditor.putInt("MP", player.getData().getMP());
-                dspEditor.putInt("maxHP", player.getData().getMaxHP());
-                dspEditor.putInt("maxMP", player.getData().getMaxpMP());
-
-                //player state
-                dspEditor.putInt("state", 0);
-
-                //steps
-                dspEditor.putInt("steps", player.getDestination().getSteps());
-                dspEditor.putInt("stepsNeeded", player.getDestination().getStepsNeeded());
-
-                //current town, destination id
-                dspEditor.putInt("currentTown", 0);
-                dspEditor.putInt("destination", 0);
-
-                //equipped wep, armor, potion id
-                dspEditor.putInt("weapon", 0);
-                dspEditor.putInt("armor", 0);
-                dspEditor.putInt("potion", 0);
-
-                //inventory wep, armor, potion id
-
-                dspEditor.apply ();
+                Player player = setUpNewPlayer();
+                //saves the new player's info
+                GameSave.save(dspEditor, player);
 
                 Intent townActivity = new Intent(getBaseContext(), Town.class);
                 startActivity(townActivity);
                 finish();
             }
         });
+    }
+
+    public Player setUpNewPlayer(){
+        Player player = new Player (setup_et_name.getText().toString(), databaseHelper.getTown(ObjectId.START_TOWN), PlayerState.TOWN);
+
+        //beginner items here
+        player.equip(databaseHelper.getWeapon(ObjectId.WOODEN_SWORD));
+        player.equip(databaseHelper.getArmor(ObjectId.WOODEN_HELMET));
+
+        //give potions to new user
+        int freePotions = 3;
+        for(int i = 0; i < freePotions; i++){
+            player.getItems().add(databaseHelper.getPotion(ObjectId.HP_REGEN));
+            player.getItems().add(databaseHelper.getPotion(ObjectId.MP_REGEN));
+        }
+
+        return player;
     }
 }

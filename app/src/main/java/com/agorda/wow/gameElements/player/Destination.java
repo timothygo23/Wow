@@ -9,6 +9,8 @@ import com.agorda.wow.gameElements.town.Town;
  */
 
 public class Destination {
+    public static final int coversion = 20;
+
     private Town from;
     private Town destination;
     private int steps;
@@ -19,7 +21,7 @@ public class Destination {
         this.destination = to;
 
         steps = 0;
-        stepsNeeded = Math.round(Math.abs(to.getLocation() - from.getLocation())) * 500;
+        stepsNeeded = Math.round(Math.abs(to.getLocation() - from.getLocation())) * coversion;
 
     }
 

@@ -14,10 +14,15 @@ import android.widget.ToggleButton;
 import com.agorda.wow.gameElements.player.Destination;
 import com.agorda.wow.gameElements.player.Player;
 import com.agorda.wow.gameElements.player.PlayerState;
+import com.agorda.wow.services.WalkingService;
+import com.agorda.wow.util.DatabaseHelper;
+import com.agorda.wow.util.GameSave;
 import com.agorda.wow.util.NotificationCreator;
 import com.agorda.wow.util.NotificationUtil;
 import com.agorda.wow.util.StepCounter;
 import com.agorda.wow.util.StepCounterListener;
+
+import java.util.Random;
 
 public class Adventure extends AppCompatActivity implements StepCounterListener {
     private StepCounter stepCounter;
@@ -30,6 +35,10 @@ public class Adventure extends AppCompatActivity implements StepCounterListener 
     private NotificationCreator notificationCreator;
 
     private SharedPreferences dsp;
+    private DatabaseHelper databaseHelper;
+
+    private Random r;
+    private int chance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,21 +49,15 @@ public class Adventure extends AppCompatActivity implements StepCounterListener 
         SensorManager sensorManager = (SensorManager)getSystemService(getBaseContext().SENSOR_SERVICE);
         stepCounter = new StepCounter(sensorManager, this);
 
+        //back end elements
         dsp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        databaseHelper = new DatabaseHelper(this);
 
         //load player
-        player = new Player(dsp.getString("name", "").toString(), new com.agorda.wow.gameElements.town.Town("town1", "", 0));
-        player.setDestination(new Destination(player.getCurrentTown(), new com.agorda.wow.gameElements.town.Town("town2","This new town is nice.",12)));
-
-        player.getData().setLevel(dsp.getInt("level", 1));
-        player.getData().setXP(dsp.getInt("XP", 1));
-        player.getData().setGold(dsp.getInt("gold", 1));
-        player.getData().setHP(dsp.getInt("HP", 15));
-        player.getData().setMP(dsp.getInt("MP", 15));
-        player.getData().setMaxHP(dsp.getInt("maxHP", 15));
-        player.getData().setMaxpMP(dsp.getInt("maxMP", 15));
+        player = GameSave.loadPlayer(dsp,databaseHelper);
 
         adventure_tv_steps = (TextView)findViewById(R.id.adventure_tv_steps);
+        adventure_tv_steps.setText("Steps: " + player.getDestination().getSteps());
 
         adventure_tb_walk = (ToggleButton)findViewById(R.id.adventure_tb_walk);
         adventure_tb_walk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -69,16 +72,39 @@ public class Adventure extends AppCompatActivity implements StepCounterListener 
                     player.setState(PlayerState.CAMPING);
                     stepCounter.stop();
                 }
+                GameSave.changePlayerState(dsp.edit(), player.getState());
             }
         });
+        /*
+        *   check if player saved state is walking or camping
+        */
+        if(player.getState() == PlayerState.WALKING)
+            adventure_tb_walk.setChecked(true);
 
         init();
+        setUp();
     }
 
     public void init(){
+        r = new Random();
+        chance = 0;
         isVisible = true;
         NotificationUtil.setUp((NotificationManager)getSystemService(NOTIFICATION_SERVICE));
         notificationCreator = new NotificationCreator(getBaseContext());
+    }
+
+    public void setUp(){
+        TextView to, from, hp, mp;
+        to = (TextView)findViewById(R.id.adventure_tv_to);
+        from = (TextView)findViewById(R.id.adventure_tv_from);
+        hp = (TextView)findViewById(R.id.adventure_tv_hp);
+        mp = (TextView)findViewById(R.id.adventure_tv_mp);
+
+        from.setText("From: " + player.getCurrentTown().getName());
+        to.setText("To: " + player.getDestination().getNextTown().getName());
+
+        hp.setText("HP: " + player.getData().getHP() + "/" + player.getData().getMaxHP());
+        mp.setText("MP: " + player.getData().getMP() + "/" + player.getData().getMaxMP());
     }
 
     @Override
@@ -88,8 +114,11 @@ public class Adventure extends AppCompatActivity implements StepCounterListener 
                 NotificationUtil.notify(NotificationUtil.NOTIFICATION_WALKING, notificationCreator.walkNotifcation(player));
 
             //encountered an enemy
-            if(player.getDestination().getSteps() == 10) {
+            if(encountered()) {
                 player.setState(PlayerState.FIGHTING);
+                GameSave.changeStepCount(dsp.edit(), player.getDestination().getSteps());
+                GameSave.changePlayerState(dsp.edit(), player.getState());
+
                 stepCounter.stop();
 
                 if(isVisible){
@@ -105,6 +134,9 @@ public class Adventure extends AppCompatActivity implements StepCounterListener 
             player.setState(PlayerState.TOWN);
             player.setCurrentTown(player.getDestination().getNextTown());
             player.setDestination(null);
+
+            GameSave.save(dsp.edit(), player);
+
             stepCounter.stop();
 
             if(isVisible) {
@@ -116,6 +148,7 @@ public class Adventure extends AppCompatActivity implements StepCounterListener 
 
         }
         adventure_tv_steps.setText("Steps: " + player.getDestination().getSteps());
+        GameSave.changeStepCount(dsp.edit(), player.getDestination().getSteps());
     }
 
     @Override
@@ -166,6 +199,23 @@ public class Adventure extends AppCompatActivity implements StepCounterListener 
         Intent townIntent = new Intent(getBaseContext(), Town.class);
         startActivity(townIntent);
         finish();
+    }
+
+    public boolean encountered(){
+        boolean encounter = false;
+
+        int steps = player.getDestination().getSteps() - chance;
+        int stepsNeeded = player.getDestination().getStepsNeeded();
+
+        float percent = (steps * 1.0f / stepsNeeded * 1.0f) * 100;
+        float result = r.nextFloat() * 100;
+
+        if(result <= percent && result >= 30) {
+            encounter = true;
+            chance = steps;
+        }
+
+        return encounter;
     }
 
 }

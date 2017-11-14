@@ -4,6 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.agorda.wow.Adventure">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:padding="20dp">
+        <TextView
+            android:id="@+id/adventure_tv_from"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="From"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/adventure_tv_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="To"
+            android:textSize="20sp"/>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,6 +55,28 @@
             android:layout_margin="15dp"
             android:textOff="Walk"
             android:textOn="Camp"/>
-
     </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/adventure_tv_hp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/adventure_tv_mp"
+        android:layout_marginTop="5dp"
+        android:text="HP: "
+        android:textSize="25sp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorAccent"/>
+    <TextView
+        android:id="@+id/adventure_tv_mp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="40dp"
+        android:text="MP: "
+        android:textSize="25sp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorPrimary"/>
+
 </RelativeLayout>

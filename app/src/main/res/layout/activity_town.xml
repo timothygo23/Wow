@@ -4,15 +4,142 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.agorda.wow.Town">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_alignParentTop="true">
+        <TextView
+            android:id="@+id/town_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="name"
+            android:textSize="25sp"
+            android:textColor="@color/colorPrimary"/>
+        <TextView
+            android:id="@+id/town_tv_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/town_tv_name"
+            android:text="Level: "
+            android:textSize="20sp"
+            android:textColor="@color/colorAccent"/>
+        <TextView
+            android:id="@+id/town_tv_xp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/town_tv_level"
+            android:text="Exp: "
+            android:textSize="20sp"
+            android:textColor="#313131"/>
 
-    <Button
-        android:id="@+id/town_button_adventure"
+        <!--right side-->
+
+        <TextView
+            android:id="@+id/town_tv_gold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Gold: "
+            android:textSize="25sp"
+            android:textColor="@color/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/town_tv_weapon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/town_tv_gold"
+            android:text="weapon"
+            android:textSize="20sp"
+            android:textColor="@color/colorAccent"/>
+
+        <TextView
+            android:id="@+id/town_tv_armor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/town_tv_weapon"
+            android:text="armor"
+            android:textSize="20sp"
+            android:textColor="@color/colorAccent"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/town_tv_townname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="TOWN"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/rel_buttons"
+        android:textSize="30sp"/>
+
+    <RelativeLayout
+        android:id="@id/rel_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+        <Button
+            android:id="@+id/town_button_weapon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="Weapon"/>
+
+        <Button
+            android:id="@+id/town_button_armor"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_toRightOf="@id/town_button_weapon"
+            android:text="Armor"/>
+
+        <Button
+            android:id="@+id/town_button_potion"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_toRightOf="@+id/town_button_inn"
+            android:layout_below="@id/town_button_armor"
+            android:text="Potion"/>
+
+        <Button
+            android:id="@id/town_button_inn"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/town_button_weapon"
+            android:text="Inn"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/town_tv_hp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rel_buttons"
+        android:layout_marginTop="5dp"
+        android:text="HP: "
+        android:textSize="25sp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorAccent"/>
+    <TextView
+        android:id="@+id/town_tv_mp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/town_tv_hp"
+        android:text="MP: "
+        android:textSize="25sp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorPrimary"/>
+    <Button
+        android:id="@+id/town_button_adventure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:text="Adventure"
         android:textColor="#fff"
-        android:textSize="35sp"
+        android:textSize="20sp"
         android:padding="20dp"
+        android:layout_margin="15dp"
         android:background="@color/colorAccent"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>

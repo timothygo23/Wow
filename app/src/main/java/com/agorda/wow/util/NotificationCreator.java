@@ -42,7 +42,7 @@ public class NotificationCreator {
     public Notification walkNotifcation (Player player){
         NotificationCompat.Builder builder = (NotificationCompat.Builder) new NotificationCompat.Builder (context)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle ("Walking to Town " + player.getDestination().getNextTown().getName())
+                .setContentTitle ("Walking to " + player.getDestination().getNextTown().getName())
                 .setContentText ("Steps Left: " + (player.getDestination().getStepsNeeded() - player.getDestination().getSteps()))
                 .setOngoing (true)
                 .setContentIntent (adventureIntent)

@@ -9,7 +9,7 @@ import com.agorda.wow.gameElements.types.Stat;
 
 public class Potion extends Equipment{
 
-    public static final String TABLE_NAME = "armor";
+    public static final String TABLE_NAME = "potion";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_DESCRIPTION = "description";
@@ -23,8 +23,8 @@ public class Potion extends Equipment{
     private int amount;
     private int time;
 
-    public Potion(String name, String description, Stat stat, int price, int amount, int time, PotionType potionType) {
-        super(name, description, stat, price);
+    public Potion(int id, String name, String description, Stat stat, int price, int amount, int time, PotionType potionType) {
+        super(id, name, description, stat, price);
         this.potionType = potionType;
         this.amount = amount;
         this.time = time;

@@ -1,5 +1,9 @@
 package com.agorda.wow.gameElements.town;
 
+import com.agorda.wow.gameElements.equipment.Equipment;
+
+import java.util.ArrayList;
+
 /**
  * Created by Timothy on 07/11/2017.
  */
@@ -16,7 +20,10 @@ public class Town {
     private Town adjacentLeft, adjacentRight;
     private float location; //in kilometers
 
-    public Town(String name, String description, float location){
+    private int id;
+
+    public Town(int id, String name, String description, float location){
+        this.id = id;
         this.name = name;
         this.description = description;
         this.location = location;
@@ -45,5 +52,9 @@ public class Town {
 
     public String getDescription(){
         return description;
+    }
+
+    public int getId(){
+        return id;
     }
 }

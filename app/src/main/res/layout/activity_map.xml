@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.agorda.wow.Map">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="20dp"
+        android:text="MAP"
+        android:textSize="40sp"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+
+        <!-- map chooser -->
+        <TextView
+            android:id="@+id/map_tv_townname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Town"
+            android:textSize="35sp"
+            android:textColor="@color/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/map_tv_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/map_tv_townname"
+            android:layout_centerHorizontal="true"
+            android:text="Distance"
+            android:textSize="27sp"
+            android:textColor="@color/colorAccent"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/map_button_go"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="GO!"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:layout_margin="15dp"
+        android:background="@color/colorAccent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+</RelativeLayout>

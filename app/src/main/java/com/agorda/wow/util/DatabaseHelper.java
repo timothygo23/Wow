@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
+import com.agorda.wow.gameElements.db_constants.ObjectCreation;
 import com.agorda.wow.gameElements.equipment.Armor;
 import com.agorda.wow.gameElements.equipment.Potion;
 import com.agorda.wow.gameElements.equipment.Skill;
@@ -32,51 +34,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String weaponSQL, armorSQL, potionSQL, townSQL, skillSQL;
 
         weaponSQL = "CREATE TABLE " + Weapon.TABLE_NAME + " ("
-                + Weapon.COLUMN_ID + " INTEGER PRIMARY KEY,"
-                + Weapon.COLUMN_NAME + " TEXT,"
-                + Weapon.COLUMN_DESCRIPTION + " TEXT,"
-                + Weapon.COLUMN_STAT + " TEXT,"
-                + Weapon.COLUMN_PRICE + " INTEGER,"
-                + Weapon.COLUMN_SKILL_ID_1 + " INTEGER"
-                + Weapon.COLUMN_SKILL_ID_2 + " INTEGER"
-                + Weapon.COLUMN_SKILL_ID_3 + " INTEGER"
+                + Weapon.COLUMN_ID + " INTEGER PRIMARY KEY, "
+                + Weapon.COLUMN_NAME + " TEXT, "
+                + Weapon.COLUMN_DESCRIPTION + " TEXT, "
+                + Weapon.COLUMN_STAT + " TEXT, "
+                + Weapon.COLUMN_PRICE + " INTEGER, "
+                + Weapon.COLUMN_SKILL_ID_1 + " INTEGER, "
+                + Weapon.COLUMN_SKILL_ID_2 + " INTEGER, "
+                + Weapon.COLUMN_SKILL_ID_3 + " INTEGER, "
                 + Weapon.COLUMN_SKILL_ID_4 + " INTEGER"
                 + ");";
 
         skillSQL = "CREATE TABLE " + Skill.TABLE_NAME + " ("
-                + Skill.COLUMN_ID + " INTEGER PRIMARY KEY,"
-                + Skill.COLUMN_NAME + " TEXT,"
-                + Skill.COLUMN_DAMAGE + " INTEGER,"
-                + Skill.COLUMN_MANA_COST + " INTEGER,"
-                + Skill.COLUMN_BONUS + " BONUS,"
+                + Skill.COLUMN_ID + " INTEGER PRIMARY KEY, "
+                + Skill.COLUMN_NAME + " TEXT, "
+                + Skill.COLUMN_DAMAGE + " INTEGER, "
+                + Skill.COLUMN_MANA_COST + " INTEGER"
                 + ");";
 
         armorSQL = "CREATE TABLE " + Armor.TABLE_NAME + " ("
-                + Armor.COLUMN_ID + " INTEGER PRIMARY KEY,"
-                + Armor.COLUMN_NAME + " TEXT,"
-                + Armor.COLUMN_DESCRIPTION + " TEXT,"
-                + Armor.COLUMN_STAT + " TEXT,"
-                + Armor.COLUMN_PRICE + " INTEGER,"
+                + Armor.COLUMN_ID + " INTEGER PRIMARY KEY, "
+                + Armor.COLUMN_NAME + " TEXT, "
+                + Armor.COLUMN_DESCRIPTION + " TEXT, "
+                + Armor.COLUMN_STAT + " TEXT, "
+                + Armor.COLUMN_PRICE + " INTEGER, "
                 + Armor.COLUMN_HP + " INTEGER,"
-                + Armor.COLUMN_MP + " INTEGER,"
+                + Armor.COLUMN_MP + " INTEGER, "
                 + Armor.COLUMN_STATVAL + " INTEGER"
                 + ");";
 
-        potionSQL = "CREATE TABLE " + Armor.TABLE_NAME + " ("
-                + Potion.COLUMN_ID + " INTEGER PRIMARY KEY,"
-                + Potion.COLUMN_NAME + " TEXT,"
-                + Potion.COLUMN_DESCRIPTION + " TEXT,"
-                + Potion.COLUMN_STAT + " TEXT,"
-                + Potion.COLUMN_PRICE + " INTEGER,"
-                + Potion.COLUMN_POTIONTYPE + " TEXT,"
-                + Potion.COLUMN_AMOUNT + " INTEGER,"
-                + Potion.COLUMN_TIME + " INTEGER,"
+        potionSQL = "CREATE TABLE " + Potion.TABLE_NAME + " ("
+                + Potion.COLUMN_ID + " INTEGER PRIMARY KEY, "
+                + Potion.COLUMN_NAME + " TEXT, "
+                + Potion.COLUMN_DESCRIPTION + " TEXT, "
+                + Potion.COLUMN_STAT + " TEXT, "
+                + Potion.COLUMN_PRICE + " INTEGER, "
+                + Potion.COLUMN_POTIONTYPE + " TEXT, "
+                + Potion.COLUMN_AMOUNT + " INTEGER, "
+                + Potion.COLUMN_TIME + " INTEGER"
                 + ");";
 
-        townSQL = "CREATE TABLE" + Town.TABLE_NAME + " ("
-                + Town.COLUMN_ID + " INTEGER PRIMARY KEY,"
-                + Town.COLUMN_NAME + " TEXT,"
-                + Town.COLUMN_DESCRIPTION + " TEXT,"
+        townSQL = "CREATE TABLE " + Town.TABLE_NAME + " ("
+                + Town.COLUMN_ID + " INTEGER PRIMARY KEY, "
+                + Town.COLUMN_NAME + " TEXT, "
+                + Town.COLUMN_DESCRIPTION + " TEXT, "
                 + Town.COLUMN_LOCATION + " REAL"
                 + ");";
 
@@ -85,41 +86,67 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(armorSQL);
         db.execSQL(potionSQL);
         db.execSQL(townSQL);
+
+        //populates the DB with objects
+        ObjectCreation oc = new ObjectCreation(this);
+        oc.populateDb(db);
+        Log.i("DATABASE", "SUCCESSFULLY ADDED ALL ROWS");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String weaponSQL, armorSQL, potionSQL;
+        String weaponSQL, armorSQL, potionSQL, skillSQL, townSQL;
 
         weaponSQL = "DROP TABLE IF EXIST " + Weapon.TABLE_NAME + ";";
+        skillSQL = "DROP TABLE IF EXIST " + Skill.TABLE_NAME + ";";
         armorSQL = "DROP TABLE IF EXIST " + Armor.TABLE_NAME + ";";
         potionSQL = "DROP TABLE IF EXIST " + Potion.TABLE_NAME + ";";
+        townSQL = "DROP TABLE IF EXIST " + Town.TABLE_NAME + ";";
 
         db.execSQL(weaponSQL);
+        db.execSQL(skillSQL);
         db.execSQL(armorSQL);
         db.execSQL(potionSQL);
+        db.execSQL(townSQL);
 
+        onCreate(db);
     }
 
-    public boolean addWeapon (Weapon weapon) {
-        SQLiteDatabase db = getWritableDatabase ();
-
+    public void addWeapon (SQLiteDatabase db, Weapon weapon, long skill_1, long skill_2, long skill_3, long skill_4) {
         ContentValues cv = new ContentValues();
+        cv.put(Weapon.COLUMN_ID, weapon.getId());
         cv.put(Weapon.COLUMN_NAME, weapon.getName());
         cv.put(Weapon.COLUMN_DESCRIPTION, weapon.getDescription());
         cv.put(Weapon.COLUMN_STAT, weapon.getStat().toString());
         cv.put(Weapon.COLUMN_PRICE, weapon.getPrice());
-        /*cv.put(Weapon.COLUMN_SKILL_ID_1, Skill.COLUMN_ID);
-        cv.put(Weapon.COLUMN_SKILL_ID_2, Skill.COLUMN_ID);
-        cv.put(Weapon.COLUMN_SKILL_ID_3, Skill.COLUMN_ID);
-        cv.put(Weapon.COLUMN_SKILL_ID_4, Skill.COLUMN_ID);*/
+        cv.put(Weapon.COLUMN_SKILL_ID_1, skill_1);
+        cv.put(Weapon.COLUMN_SKILL_ID_2, skill_2);
+        cv.put(Weapon.COLUMN_SKILL_ID_3, skill_3);
+        cv.put(Weapon.COLUMN_SKILL_ID_4, skill_4);
+
+        db.insert(Weapon.TABLE_NAME, null, cv);
+    }
+
+    public boolean addWeapon (Weapon weapon, long weaponId, long skill_1, long skill_2, long skill_3, long skill_4) {
+        SQLiteDatabase db = getWritableDatabase ();
+
+        ContentValues cv = new ContentValues();
+        cv.put(Weapon.COLUMN_ID, weaponId);
+        cv.put(Weapon.COLUMN_NAME, weapon.getName());
+        cv.put(Weapon.COLUMN_DESCRIPTION, weapon.getDescription());
+        cv.put(Weapon.COLUMN_STAT, weapon.getStat().toString());
+        cv.put(Weapon.COLUMN_PRICE, weapon.getPrice());
+        cv.put(Weapon.COLUMN_SKILL_ID_1, skill_1);
+        cv.put(Weapon.COLUMN_SKILL_ID_2, skill_2);
+        cv.put(Weapon.COLUMN_SKILL_ID_3, skill_3);
+        cv.put(Weapon.COLUMN_SKILL_ID_4, skill_4);
 
         long id = db.insert(Weapon.TABLE_NAME, null, cv);
         db.close();
         return (id != 1);
     }
 
-    public boolean updateWeapon (Weapon weapon, long id) {
+    public boolean updateWeapon (Weapon weapon, long id, long skill_1, long skill_2, long skill_3, long skill_4) {
         SQLiteDatabase db = getWritableDatabase ();
 
         ContentValues cv = new ContentValues();
@@ -127,10 +154,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(Weapon.COLUMN_DESCRIPTION, weapon.getDescription());
         cv.put(Weapon.COLUMN_STAT, weapon.getStat().toString());
         cv.put(Weapon.COLUMN_PRICE, weapon.getPrice());
-        /*cv.put(Weapon.COLUMN_SKILL_ID_1, Skill.COLUMN_ID);
-        cv.put(Weapon.COLUMN_SKILL_ID_2, Skill.COLUMN_ID);
-        cv.put(Weapon.COLUMN_SKILL_ID_3, Skill.COLUMN_ID);
-        cv.put(Weapon.COLUMN_SKILL_ID_4, Skill.COLUMN_ID);*/
+        cv.put(Weapon.COLUMN_SKILL_ID_1, skill_1);
+        cv.put(Weapon.COLUMN_SKILL_ID_2, skill_2);
+        cv.put(Weapon.COLUMN_SKILL_ID_3, skill_3);
+        cv.put(Weapon.COLUMN_SKILL_ID_4, skill_4);
 
         int rows = db.update(Weapon.TABLE_NAME, cv, Weapon.COLUMN_ID + " =?", new String[]{id + ""});
         db.close();
@@ -155,8 +182,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String description = c.getString(c.getColumnIndex(Weapon.COLUMN_DESCRIPTION));
             Stat stat = Stat.valueOf(c.getString(c.getColumnIndex(Weapon.COLUMN_STAT)));
             int price =  c.getInt(c.getColumnIndex(Weapon.COLUMN_PRICE));
+            int skill_1 = c.getInt(c.getColumnIndex(Weapon.COLUMN_SKILL_ID_1));
+            int skill_2 = c.getInt(c.getColumnIndex(Weapon.COLUMN_SKILL_ID_2));
+            int skill_3 = c.getInt(c.getColumnIndex(Weapon.COLUMN_SKILL_ID_3));
+            int skill_4 = c.getInt(c.getColumnIndex(Weapon.COLUMN_SKILL_ID_4));
 
-            w = new Weapon(name, description, stat, price);
+            w = new Weapon((int)id, name, description, stat, price);
+            w.addSkill(skill_1, getSkill(skill_1));
+            w.addSkill(skill_2, getSkill(skill_2));
+            w.addSkill(skill_3, getSkill(skill_3));
+            w.addSkill(skill_4, getSkill(skill_4));
         }
 
         c.close();
@@ -170,14 +205,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rows > 0;
     }
 
-    public boolean addSkill (Skill skill) {
-        SQLiteDatabase db = getWritableDatabase ();
-
+    public void addSkill (SQLiteDatabase db, Skill skill) {
         ContentValues cv = new ContentValues();
+        cv.put(Skill.COLUMN_ID, skill.getId());
         cv.put(Skill.COLUMN_NAME, skill.getName());
         cv.put(Skill.COLUMN_DAMAGE, skill.getDamage());
         cv.put(Skill.COLUMN_MANA_COST, skill.getManaCost());
-        cv.put(Skill.COLUMN_BONUS, skill.getBonus());
+        db.insert(Skill.TABLE_NAME, null, cv);
+    }
+
+    public boolean addSkill (Skill skill, long skillId) {
+        SQLiteDatabase db = getWritableDatabase ();
+
+        ContentValues cv = new ContentValues();
+        cv.put(Skill.COLUMN_ID, skillId);
+        cv.put(Skill.COLUMN_NAME, skill.getName());
+        cv.put(Skill.COLUMN_DAMAGE, skill.getDamage());
+        cv.put(Skill.COLUMN_MANA_COST, skill.getManaCost());
 
         long id = db.insert(Skill.TABLE_NAME, null, cv);
         db.close();
@@ -191,7 +235,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(Skill.COLUMN_NAME, skill.getName());
         cv.put(Skill.COLUMN_DAMAGE, skill.getDamage());
         cv.put(Skill.COLUMN_MANA_COST, skill.getManaCost());
-        cv.put(Skill.COLUMN_BONUS, skill.getBonus());
 
         int rows = db.update(Skill.TABLE_NAME, cv, Skill.COLUMN_ID + " =?", new String[]{id + ""});
         db.close();
@@ -215,9 +258,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String name = c.getString(c.getColumnIndex(Skill.COLUMN_NAME));
             int damage = c.getInt(c.getColumnIndex(Skill.COLUMN_DAMAGE));
             int manaCost = c.getInt(c.getColumnIndex(Skill.COLUMN_MANA_COST));
-            int bonus = c.getInt(c.getColumnIndex(Skill.COLUMN_BONUS));
 
-            s = new Skill(name, damage, manaCost);
+            s = new Skill((int)id, name, damage, manaCost);
         }
 
         c.close();
@@ -231,10 +273,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rows > 0;
     }
 
-    public boolean addArmor (Armor armor) {
+    public void addArmor (SQLiteDatabase db, Armor armor) {
+        ContentValues cv = new ContentValues();
+        cv.put(Armor.COLUMN_ID, armor.getId());
+        cv.put(Armor.COLUMN_NAME, armor.getName());
+        cv.put(Armor.COLUMN_DESCRIPTION, armor.getDescription());
+        cv.put(Armor.COLUMN_STAT, armor.getStat().toString());
+        cv.put(Armor.COLUMN_PRICE, armor.getPrice());
+        cv.put(Armor.COLUMN_HP, armor.getHP());
+        cv.put(Armor.COLUMN_MP, armor.getMP());
+        cv.put(Armor.COLUMN_STATVAL, armor.getStatValue());
+        db.insert(Armor.TABLE_NAME, null, cv);
+    }
+
+    public boolean addArmor (Armor armor, long armorId) {
         SQLiteDatabase db = getWritableDatabase ();
 
         ContentValues cv = new ContentValues();
+        cv.put(Armor.COLUMN_ID, armorId);
         cv.put(Armor.COLUMN_NAME, armor.getName());
         cv.put(Armor.COLUMN_DESCRIPTION, armor.getDescription());
         cv.put(Armor.COLUMN_STAT, armor.getStat().toString());
@@ -287,7 +343,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             int mp = c.getInt(c.getColumnIndex(Armor.COLUMN_MP));
             int statval = c.getInt(c.getColumnIndex(Armor.COLUMN_STATVAL));
 
-            a = new Armor(name, description, stat, price, hp ,mp, statval);
+            a = new Armor((int)id, name, description, stat, statval, price, hp ,mp);
         }
 
         c.close();
@@ -301,10 +357,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rows > 0;
     }
 
-    public boolean addPotion (Potion potion) {
+    public void addPotion (SQLiteDatabase db, Potion potion) {
+        ContentValues cv = new ContentValues();
+        cv.put(Potion.COLUMN_ID, potion.getId());
+        cv.put(Potion.COLUMN_NAME, potion.getName());
+        cv.put(Potion.COLUMN_DESCRIPTION, potion.getDescription());
+        cv.put(Potion.COLUMN_STAT, potion.getStat().toString());
+        cv.put(Potion.COLUMN_PRICE, potion.getPrice());
+        cv.put(Potion.COLUMN_POTIONTYPE, potion.getPotionType().toString());
+        cv.put(Potion.COLUMN_AMOUNT, potion.getAmount());
+        cv.put(Potion.COLUMN_TIME, potion.getTime());
+        db.insert(Potion.TABLE_NAME, null, cv);
+    }
+
+    public boolean addPotion (Potion potion, long potionId) {
         SQLiteDatabase db = getWritableDatabase ();
 
         ContentValues cv = new ContentValues();
+        cv.put(Potion.COLUMN_ID, potionId);
         cv.put(Potion.COLUMN_NAME, potion.getName());
         cv.put(Potion.COLUMN_DESCRIPTION, potion.getDescription());
         cv.put(Potion.COLUMN_STAT, potion.getStat().toString());
@@ -357,7 +427,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             int amount = c.getInt(c.getColumnIndex(Potion.COLUMN_AMOUNT));
             int time = c.getInt(c.getColumnIndex(Potion.COLUMN_TIME));
 
-            p = new Potion(name, description, stat, price, amount, time, potionType);
+            p = new Potion((int)id, name, description, stat, price, amount, time, potionType);
         }
 
         c.close();
@@ -371,10 +441,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rows > 0;
     }
 
-    public boolean addTown (Town town) {
+    public void addTown (SQLiteDatabase db, Town town) {
+        ContentValues cv = new ContentValues();
+        cv.put(Town.COLUMN_ID, town.getId());
+        cv.put(Town.COLUMN_NAME, town.getName());
+        cv.put(Town.COLUMN_DESCRIPTION, town.getDescription());
+        cv.put(Town.COLUMN_LOCATION, town.getLocation());
+        db.insert(Town.TABLE_NAME, null, cv);
+    }
+
+    public boolean addTown (Town town, long townId) {
         SQLiteDatabase db = getWritableDatabase ();
 
         ContentValues cv = new ContentValues();
+        cv.put(Town.COLUMN_ID, townId);
         cv.put(Town.COLUMN_NAME, town.getName());
         cv.put(Town.COLUMN_DESCRIPTION, town.getDescription());
         cv.put(Town.COLUMN_LOCATION, town.getLocation());
@@ -415,7 +495,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String description = c.getString(c.getColumnIndex(Town.COLUMN_DESCRIPTION));
             float location = c.getFloat(c.getColumnIndex(Town.COLUMN_LOCATION));
 
-            t = new Town(name, description, location);
+            t = new Town((int)id, name, description, location);
         }
 
         c.close();

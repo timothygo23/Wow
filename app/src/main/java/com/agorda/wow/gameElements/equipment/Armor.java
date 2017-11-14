@@ -21,8 +21,8 @@ public class Armor extends Equipment{
     private int HP, MP;
     private int statValue;
 
-    public Armor(String name, String description, Stat stat, int statValue, int price, int HP, int MP) {
-        super(name, description, stat, price);
+    public Armor(int id, String name, String description, Stat stat, int statValue, int price, int HP, int MP) {
+        super(id, name, description, stat, price);
         this.statValue = statValue;
         this.HP = HP;
         this.MP = MP;

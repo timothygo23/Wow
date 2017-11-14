@@ -35,10 +35,12 @@
             android:screenOrientation="portrait" />
 
         <service
-            android:name=".WalkingService"
+            android:name=".services.WalkingService"
             android:enabled="true"
             android:exported="true"
-            android:stopWithTask="false"></service>
+            android:stopWithTask="false" />
+
+        <activity android:name=".Map"></activity>
     </application>
 
 </manifest>

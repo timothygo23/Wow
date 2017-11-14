@@ -1,5 +1,7 @@
 package com.agorda.wow.gameElements.player;
 
+import android.util.Log;
+
 import com.agorda.wow.gameElements.equipment.Armor;
 import com.agorda.wow.gameElements.equipment.Potion;
 import com.agorda.wow.gameElements.equipment.Weapon;
@@ -10,10 +12,10 @@ import com.agorda.wow.gameElements.equipment.Weapon;
 
 public class PlayerData {
     private String name;
-    private int level, XP;
+    private int level, XP, XPneed;
     private int gold;
 
-    private int HP, MP, maxHP, maxpMP;
+    private int HP, MP, maxHP, maxMP;
 
     private Weapon weapon;
     private Armor armor;
@@ -23,13 +25,10 @@ public class PlayerData {
         this.name = name;
         level = 1;
         XP = 1;
+        XPneed = XP*10;
         gold = 1;
         maxHP = HP = 15;
-        maxpMP = MP = 15;
-
-        //equip basic weapon
-        //equip basic armor
-        //equip basic potion
+        maxMP = MP = 15;
     }
 
     public String getName() {
@@ -88,12 +87,12 @@ public class PlayerData {
         this.maxHP = maxHP;
     }
 
-    public int getMaxpMP() {
-        return maxpMP;
+    public int getMaxMP() {
+        return maxMP;
     }
 
-    public void setMaxpMP(int maxpMP) {
-        this.maxpMP = maxpMP;
+    public void setMaxMP(int maxMP) {
+        this.maxMP = maxMP;
     }
 
     public Weapon getWeapon() {
@@ -109,7 +108,15 @@ public class PlayerData {
     }
 
     public void setArmor(Armor armor) {
+        if(this.armor != null){
+            maxHP -= this.armor.getHP();
+            maxMP -= this.armor.getMP();
+        }
+
         this.armor = armor;
+
+        maxMP += this.armor.getMP();
+        maxHP += this.armor.getHP();
     }
 
     public Potion getPotion() {
@@ -118,5 +125,9 @@ public class PlayerData {
 
     public void setPotion(Potion potion) {
         this.potion = potion;
+    }
+
+    public int getXPneed(){
+        return XPneed;
     }
 }
