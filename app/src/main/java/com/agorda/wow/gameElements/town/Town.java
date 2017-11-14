@@ -5,6 +5,13 @@ package com.agorda.wow.gameElements.town;
  */
 
 public class Town {
+
+    public static final String TABLE_NAME = "Town";
+    public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_DESCRIPTION = "description";
+    public static final String COLUMN_LOCATION = "location";
+
     private String name, description;
     private Town adjacentLeft, adjacentRight;
     private float location; //in kilometers

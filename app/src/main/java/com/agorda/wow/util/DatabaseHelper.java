@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.agorda.wow.gameElements.equipment.Armor;
 import com.agorda.wow.gameElements.equipment.Potion;
 import com.agorda.wow.gameElements.equipment.Weapon;
+import com.agorda.wow.gameElements.town.Town;
 import com.agorda.wow.gameElements.types.PotionType;
 import com.agorda.wow.gameElements.types.Stat;
 
@@ -27,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String weaponSQL, armorSQL, potionSQL;
+        String weaponSQL, armorSQL, potionSQL, townSQL;
 
         weaponSQL = "CREATE TABLE " + Weapon.TABLE_NAME + " ("
                 + Weapon.COLUMN_ID + " INTEGER PRIMARY KEY,"
@@ -60,9 +61,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + Potion.COLUMN_TIME + " INTEGER,"
                 + ");";
 
+        townSQL = "CREATE TABLE" + Town.TABLE_NAME + " ("
+                + Town.COLUMN_ID + " INTEGER PRIMARY KEY,"
+                + Town.COLUMN_NAME + " TEXT,"
+                + Town.COLUMN_DESCRIPTION + " TEXT,"
+                + Town.COLUMN_LOCATION + " REAL"
+                + ");";
+
         db.execSQL(weaponSQL);
         db.execSQL(armorSQL);
         db.execSQL(potionSQL);
+        db.execSQL(townSQL);
     }
 
     @Override
@@ -279,6 +288,64 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean deletePotion (long id) {
         SQLiteDatabase db = getWritableDatabase();
         int rows = db.delete(Potion.TABLE_NAME, Potion.COLUMN_ID + " =?", new String[]{id + ""});
+        return rows > 0;
+    }
+
+    public boolean addTown (Town town) {
+        SQLiteDatabase db = getWritableDatabase ();
+
+        ContentValues cv = new ContentValues();
+        cv.put(Town.COLUMN_NAME, town.getName());
+        cv.put(Town.COLUMN_DESCRIPTION, town.getDescription());
+        cv.put(Town.COLUMN_LOCATION, town.getLocation());
+
+        long id = db.insert(Town.TABLE_NAME, null, cv);
+        db.close();
+        return (id != 1);
+    }
+
+    public boolean updateTown (Town town, long id) {
+        SQLiteDatabase db = getWritableDatabase ();
+
+        ContentValues cv = new ContentValues();
+        cv.put(Town.COLUMN_NAME, town.getName());
+        cv.put(Town.COLUMN_DESCRIPTION, town.getDescription());
+        cv.put(Town.COLUMN_LOCATION, town.getLocation());
+
+        int rows = db.update(Town.TABLE_NAME, cv, Town.COLUMN_ID + " =?", new String[]{id + ""});
+        db.close();
+        return (rows > 0);
+    }
+
+    public Town getTown (long id) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor c = db.query(Town.TABLE_NAME,
+                null,
+                Town.COLUMN_ID + " =?",
+                new String[]{id + ""},
+                null,
+                null,
+                null);
+
+        Town t = null;
+
+        if (c.moveToFirst()) {
+            String name = c.getString(c.getColumnIndex(Town.COLUMN_NAME));
+            String description = c.getString(c.getColumnIndex(Town.COLUMN_DESCRIPTION));
+            float location = c.getFloat(c.getColumnIndex(Town.COLUMN_LOCATION));
+
+            t = new Town(name, description, location);
+        }
+
+        c.close();
+        db.close();
+        return t;
+    }
+
+    public boolean deleteTown (long id) {
+        SQLiteDatabase db = getWritableDatabase();
+        int rows = db.delete(Town.TABLE_NAME, Town.COLUMN_ID + " =?", new String[]{id + ""});
         return rows > 0;
     }
 }
