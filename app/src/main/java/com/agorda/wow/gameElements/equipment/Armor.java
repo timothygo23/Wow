@@ -7,6 +7,17 @@ import com.agorda.wow.gameElements.types.Stat;
  */
 
 public class Armor extends Equipment{
+
+    public static final String TABLE_NAME = "armor";
+    public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_DESCRIPTION = "description";
+    public static final String COLUMN_STAT = "stat";
+    public static final String COLUMN_PRICE = "price";
+    public static final String COLUMN_HP = "hp";
+    public static final String COLUMN_MP = "mp";
+    public static final String COLUMN_STATVAL = "stat_value";
+
     private int HP, MP;
     private int statValue;
 
@@ -21,4 +32,23 @@ public class Armor extends Equipment{
         return statValue;
     }
 
+    public int getHP() {
+        return HP;
+    }
+
+    public void setHP(int HP) {
+        this.HP = HP;
+    }
+
+    public int getMP() {
+        return MP;
+    }
+
+    public void setMP(int MP) {
+        this.MP = MP;
+    }
+
+    public void setStatValue(int statValue) {
+        this.statValue = statValue;
+    }
 }

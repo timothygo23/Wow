@@ -37,7 +37,13 @@ public class Splash extends AppCompatActivity {
                     startActivity (i);
                     finish();
                 } else { //temporary previous activity
-                    Intent i = new Intent (getBaseContext(), Town.class);
+                    Intent i = null;
+                    switch (dsp.getInt("state", 0)) {
+                        case 0: i = new Intent (getBaseContext(), Town.class);
+                            break;
+                        case 1: i = new Intent (getBaseContext(), Adventure.class);
+                            break;
+                    }
                     startActivity(i);
                     finish();
                 }

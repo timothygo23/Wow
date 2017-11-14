@@ -7,6 +7,15 @@ import com.agorda.wow.gameElements.types.Stat;
  */
 
 public class Weapon extends Equipment{
+
+    public static final String TABLE_NAME = "armor";
+    public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_DESCRIPTION = "description";
+    public static final String COLUMN_STAT = "stat";
+    public static final String COLUMN_PRICE = "price";
+    public static final String COLUMN_SKILL_ID = "skill_id";
+
     private Skill[] skills;
 
     public Weapon(String name, String description, Stat stat, int price) {
