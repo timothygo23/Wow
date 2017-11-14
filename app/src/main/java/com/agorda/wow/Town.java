@@ -57,7 +57,6 @@ public class Town extends AppCompatActivity{
             public void onClick(View v) {
                 Intent adventureActivity = new Intent(getBaseContext(), Map.class);
                 startActivity(adventureActivity);
-                finish();
             }
         });
 

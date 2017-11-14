@@ -109,6 +109,8 @@ public class Adventure extends AppCompatActivity implements StepCounterListener 
 
     @Override
     public void onStep() {
+        chance++;
+
         if(player.walk()){
             if(!isVisible)
                 NotificationUtil.notify(NotificationUtil.NOTIFICATION_WALKING, notificationCreator.walkNotifcation(player));
@@ -128,27 +130,31 @@ public class Adventure extends AppCompatActivity implements StepCounterListener 
                     NotificationUtil.notify(NotificationUtil.NOTIFICATION_ENEMY, notificationCreator.fightNotification(player));
                 }
             }
-
+            adventure_tv_steps.setText("Steps: " + player.getDestination().getSteps());
+            GameSave.changeStepCount(dsp.edit(), player.getDestination().getSteps());
         }else{
             //reached the next town
-            player.setState(PlayerState.TOWN);
-            player.setCurrentTown(player.getDestination().getNextTown());
-            player.setDestination(null);
-
-            GameSave.save(dsp.edit(), player);
-
             stepCounter.stop();
 
             if(isVisible) {
+                player.setState(PlayerState.TOWN);
+                player.setCurrentTown(player.getDestination().getNextTown());
+                player.setDestination(null);
+
+                GameSave.save(dsp.edit(), player);
                 goToTownActivity();
             }else{
                 NotificationUtil.cancel(NotificationUtil.NOTIFICATION_WALKING);
                 NotificationUtil.notify(NotificationUtil.NOTIFICATION_TOWN, notificationCreator.townNotifcation(player.getDestination().getNextTown()));
+
+                player.setState(PlayerState.TOWN);
+                player.setCurrentTown(player.getDestination().getNextTown());
+                player.setDestination(null);
+
+                GameSave.save(dsp.edit(), player);
             }
 
         }
-        adventure_tv_steps.setText("Steps: " + player.getDestination().getSteps());
-        GameSave.changeStepCount(dsp.edit(), player.getDestination().getSteps());
     }
 
     @Override
@@ -204,15 +210,13 @@ public class Adventure extends AppCompatActivity implements StepCounterListener 
     public boolean encountered(){
         boolean encounter = false;
 
-        int steps = player.getDestination().getSteps() - chance;
         int stepsNeeded = player.getDestination().getStepsNeeded();
 
-        float percent = (steps * 1.0f / stepsNeeded * 1.0f) * 100;
+        float percent = (chance * 1.0f / stepsNeeded * 1.0f) * 100;
         float result = r.nextFloat() * 100;
 
-        if(result <= percent && result >= 30) {
+        if(result <= percent && percent >= 20) {
             encounter = true;
-            chance = steps;
         }
 
         return encounter;
