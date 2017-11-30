@@ -6,18 +6,27 @@
     android:layout_height="match_parent"
     tools:context="com.agorda.wow.Fight">
     <TextView
-        android:id="@+id/fight_tv"
+        android:id="@+id/fight_enemy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="FIGHT VIEW"
         android:textSize="30sp"/>
+
+    <TextView
+        android:id="@+id/fight_enemy_stats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fight_enemy"
+        android:layout_centerHorizontal="true"
+        android:text="sdfs"/>
+
     <Button
         android:id="@+id/fight_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="FIGHT"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/fight_tv"/>
+        android:layout_below="@id/fight_enemy_stats"/>
 </RelativeLayout>

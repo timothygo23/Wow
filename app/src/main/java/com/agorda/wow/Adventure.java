@@ -11,6 +11,9 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.agorda.wow.gameElements.db_constants.ObjectCreation;
+import com.agorda.wow.gameElements.db_constants.ObjectId;
+import com.agorda.wow.gameElements.enemy.Enemy;
 import com.agorda.wow.gameElements.player.Destination;
 import com.agorda.wow.gameElements.player.Player;
 import com.agorda.wow.gameElements.player.PlayerState;
@@ -120,6 +123,12 @@ public class Adventure extends AppCompatActivity implements StepCounterListener 
                 player.setState(PlayerState.FIGHTING);
                 GameSave.changeStepCount(dsp.edit(), player.getDestination().getSteps());
                 GameSave.changePlayerState(dsp.edit(), player.getState());
+
+                //create random enemy
+                Enemy enemy = databaseHelper.getEnemy(r.nextInt(ObjectCreation.ENEMY_COUNT - 1));
+
+                //save enemy to the pref
+                GameSave.saveEnemy(dsp.edit(), enemy);
 
                 stepCounter.stop();
 

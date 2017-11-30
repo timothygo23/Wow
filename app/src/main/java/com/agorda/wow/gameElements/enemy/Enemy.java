@@ -6,11 +6,20 @@ package com.agorda.wow.gameElements.enemy;
 
 public class Enemy {
 
+    public static String TABLE_NAME = "enemy";
+    public static String COLUMN_ID = "_id";
+    public static String COLUMN_NAME = "name";
+    public static String COLUMN_HP = "hp";
+    public static String COLUMN_DMG = "dmg";
+
     private String name;
     private int hp;
     private int dmg;
 
-    public Enemy(String name, int hp, int dmg){
+    private int _id;
+
+    public Enemy(int _id, String name, int hp, int dmg){
+        this._id = _id;
         this.name = name;
         this.hp = hp;
         this.dmg = dmg;
@@ -38,5 +47,9 @@ public class Enemy {
 
     public void setDmg(int dmg) {
         this.dmg = dmg;
+    }
+
+    public int getId(){
+        return _id;
     }
 }

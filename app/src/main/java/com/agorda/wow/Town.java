@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.agorda.wow.gameElements.player.Destination;
 import com.agorda.wow.gameElements.player.Player;
@@ -51,50 +52,15 @@ public class Town extends AppCompatActivity{
 
         player = GameSave.loadPlayer(dsp, databaseHelper);
 
-        town_button_adventure = (Button)findViewById(R.id.town_button_adventure);
-        town_button_adventure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent adventureActivity = new Intent(getBaseContext(), Map.class);
-                startActivity(adventureActivity);
-            }
-        });
-
-        setUp();
+        init();
+        initHandler();
     }
 
-    public void setUp(){
+    public void init(){
         town_button_weapon = (Button)findViewById(R.id.town_button_weapon);
-        town_button_weapon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //go to shop intent;
-            }
-        });
-
         town_button_armor = (Button)findViewById(R.id.town_button_armor);
-        town_button_armor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //go to shop intent;
-            }
-        });
-
         town_button_potion = (Button)findViewById(R.id.town_button_potion);
-        town_button_potion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //go to shop intent;
-            }
-        });
-
         town_button_inn = (Button)findViewById(R.id.town_button_inn);
-        town_button_inn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //heal player
-            }
-        });
 
         //textviews
         town_tv_name = (TextView)findViewById(R.id.town_tv_name);
@@ -116,6 +82,53 @@ public class Town extends AppCompatActivity{
         town_tv_townname.setText(player.getCurrentTown().getName());
         town_tv_hp.setText("HP: " + player.getData().getHP() + "/" + player.getData().getMaxHP());
         town_tv_mp.setText("MP: " + player.getData().getMP() + "/" + player.getData().getMaxMP());
+
+        town_button_adventure = (Button)findViewById(R.id.town_button_adventure);
+    }
+
+    private void initHandler(){
+        town_button_adventure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent adventureActivity = new Intent(getBaseContext(), Map.class);
+                startActivity(adventureActivity);
+            }
+        });
+
+        town_button_weapon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //go to shop intent;
+            }
+        });
+
+        town_button_armor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //go to shop intent;
+            }
+        });
+
+        town_button_potion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //go to shop intent;
+            }
+        });
+
+        town_button_inn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                player.getData().setHP(player.getData().getMaxHP());
+                player.getData().setMP(player.getData().getMaxMP());
+                town_tv_hp.setText("HP: " + player.getData().getHP() + "/" + player.getData().getMaxHP());
+                town_tv_mp.setText("MP: " + player.getData().getMP() + "/" + player.getData().getMaxMP());
+                GameSave.save(dsp.edit(), player);
+                Toast.makeText(getBaseContext(), "Player healed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 
 }
