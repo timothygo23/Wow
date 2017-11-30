@@ -32,4 +32,9 @@ public class ObjectId {
     //towns
     public static final int START_TOWN = 0;
     public static final int SECOND_TOWN = 1;
+
+    //enemies
+    public static final int SLIME = 0;
+    public static final int BLUE_SLIME = 1;
+    public static final int RED_SLIME = 2;
 }

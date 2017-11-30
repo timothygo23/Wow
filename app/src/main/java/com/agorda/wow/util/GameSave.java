@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.agorda.wow.gameElements.db_constants.ObjectId;
+import com.agorda.wow.gameElements.enemy.Enemy;
 import com.agorda.wow.gameElements.equipment.Armor;
 import com.agorda.wow.gameElements.equipment.Equipment;
 import com.agorda.wow.gameElements.equipment.Potion;
@@ -132,4 +133,23 @@ public class GameSave {
         dspEditor.putInt("steps", steps);
         dspEditor.apply();
     }
+
+    public static void saveEnemy(SharedPreferences.Editor dspEditor, Enemy enemy){
+        dspEditor.putInt("enemy_id", enemy.getId());
+        dspEditor.putString("enemy_name", enemy.getName());
+        dspEditor.putInt("enemy_hp", enemy.getHp());
+        dspEditor.putInt("enemy_dmg", enemy.getDmg());
+
+        dspEditor.apply();
+    }
+
+    public static Enemy loadEnemy(SharedPreferences dsp, DatabaseHelper databaseHelper){
+        Enemy enemy = new Enemy(dsp.getInt("enemy_id", 1),
+                dsp.getString("enemy_name", ""),
+                dsp.getInt("enemy_hp", 1),
+                dsp.getInt("enemy_dmg", 1));
+
+        return enemy;
+    }
+
 }

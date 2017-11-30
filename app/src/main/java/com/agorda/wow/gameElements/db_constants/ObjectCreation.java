@@ -3,6 +3,7 @@ package com.agorda.wow.gameElements.db_constants;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.agorda.wow.gameElements.enemy.Enemy;
 import com.agorda.wow.gameElements.equipment.Armor;
 import com.agorda.wow.gameElements.equipment.Potion;
 import com.agorda.wow.gameElements.equipment.Skill;
@@ -17,6 +18,8 @@ import com.agorda.wow.util.DatabaseHelper;
  */
 
 public class ObjectCreation {
+    public static int ENEMY_COUNT = 3;
+
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
 
@@ -31,6 +34,7 @@ public class ObjectCreation {
         createArmors();
         createPotions();
         createTowns();
+        createEnemies();
         Log.i("DATABASE", "DONE POPULATING");
     }
 
@@ -73,5 +77,11 @@ public class ObjectCreation {
     private void createTowns(){
         databaseHelper.addTown(db, new Town(ObjectId.START_TOWN, "West Town", "Kinda average for a starting town.", 0));
         databaseHelper.addTown(db, new Town(ObjectId.SECOND_TOWN, "North Town", "It's pretty cold in this place.", 10));
+    }
+
+    private void createEnemies(){
+        databaseHelper.addEnemy(db, new Enemy(ObjectId.SLIME, "Slime", 10, 3));
+        databaseHelper.addEnemy(db, new Enemy(ObjectId.BLUE_SLIME, "Blue Slime", 15, 5));
+        databaseHelper.addEnemy(db, new Enemy(ObjectId.RED_SLIME, "Red Slime", 20, 6));
     }
 }

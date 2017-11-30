@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.agorda.wow.gameElements.db_constants.ObjectCreation;
+import com.agorda.wow.gameElements.enemy.Enemy;
 import com.agorda.wow.gameElements.equipment.Armor;
 import com.agorda.wow.gameElements.equipment.Potion;
 import com.agorda.wow.gameElements.equipment.Skill;
@@ -31,7 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String weaponSQL, armorSQL, potionSQL, townSQL, skillSQL;
+        String weaponSQL, armorSQL, potionSQL, townSQL, skillSQL, enemySQL;
 
         weaponSQL = "CREATE TABLE " + Weapon.TABLE_NAME + " ("
                 + Weapon.COLUMN_ID + " INTEGER PRIMARY KEY, "
@@ -81,11 +82,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + Town.COLUMN_LOCATION + " REAL"
                 + ");";
 
+        enemySQL = "CREATE TABLE " + Enemy.TABLE_NAME + " ("
+                + Enemy.COLUMN_ID + " INTEGER PRIMARY KEY, "
+                + Enemy.COLUMN_NAME + " TEXT, "
+                + Enemy.COLUMN_HP + " INTEGER, "
+                + Enemy.COLUMN_DMG + " INTEGER"
+                + ");";
+
         db.execSQL(weaponSQL);
         db.execSQL(skillSQL);
         db.execSQL(armorSQL);
         db.execSQL(potionSQL);
         db.execSQL(townSQL);
+        db.execSQL(enemySQL);
 
         //populates the DB with objects
         ObjectCreation oc = new ObjectCreation(this);
@@ -507,5 +516,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         int rows = db.delete(Town.TABLE_NAME, Town.COLUMN_ID + " =?", new String[]{id + ""});
         return rows > 0;
+    }
+
+    public void addEnemy(SQLiteDatabase db, Enemy enemy){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Enemy.COLUMN_ID, enemy.getId());
+        contentValues.put(Enemy.COLUMN_NAME, enemy.getName());
+        contentValues.put(Enemy.COLUMN_HP, enemy.getHp());
+        contentValues.put(Enemy.COLUMN_DMG, enemy.getDmg());
+
+        db.insert(Enemy.TABLE_NAME, null, contentValues);
+    }
+
+    public Enemy getEnemy(long id){
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor c = db.query(Enemy.TABLE_NAME,
+                null,
+                Enemy.COLUMN_ID + " =?",
+                new String[]{id + ""},
+                null,
+                null,
+                null);
+
+        Enemy e = null;
+
+        if (c.moveToFirst()) {
+            String name = c.getString(c.getColumnIndex(Enemy.COLUMN_NAME));
+            int hp = c.getInt(c.getColumnIndex(Enemy.COLUMN_HP));
+            int dmg = c.getInt(c.getColumnIndex(Enemy.COLUMN_DMG));
+
+            e = new Enemy((int)id, name, hp, dmg);
+        }
+
+        c.close();
+        db.close();
+        return e;
     }
 }
