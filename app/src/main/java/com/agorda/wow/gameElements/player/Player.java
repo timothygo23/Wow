@@ -1,8 +1,10 @@
 package com.agorda.wow.gameElements.player;
 
+import com.agorda.wow.gameElements.enemy.Enemy;
 import com.agorda.wow.gameElements.equipment.Armor;
 import com.agorda.wow.gameElements.equipment.Equipment;
 import com.agorda.wow.gameElements.equipment.Potion;
+import com.agorda.wow.gameElements.equipment.Skill;
 import com.agorda.wow.gameElements.equipment.Weapon;
 import com.agorda.wow.gameElements.town.Town;
 
@@ -54,6 +56,20 @@ public class Player {
         }else if(e instanceof Potion){
             data.setPotion((Potion)e);
         }
+    }
+
+    public boolean skill(int index, Enemy enemy){
+        Skill skill = data.getWeapon().getSkills()[index];
+        if(skill.getManaCost() <= data.getMP()){
+            data.setMP(data.getMP() - skill.getManaCost());
+            enemy.setHp(enemy.getHp() - skill.getDamage());
+
+            if(enemy.getHp() <= 0) {
+                enemy.setHp(0);
+                return true;
+            }
+        }
+        return false;
     }
 
     public PlayerData getData(){

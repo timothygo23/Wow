@@ -22,11 +22,60 @@
         android:layout_centerHorizontal="true"
         android:text="sdfs"/>
 
-    <Button
-        android:id="@+id/fight_button"
+    <LinearLayout
+        android:id="@+id/skills"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/fight_enemy_stats"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <Button
+            android:id="@+id/button_skill1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="1"/>
+
+        <Button
+            android:id="@+id/button_skill2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="2"/>
+
+        <Button
+            android:id="@+id/button_skill3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="3"/>
+        <Button
+            android:id="@+id/button_skill4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="4"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FIGHT"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/fight_enemy_stats"/>
+        android:layout_below="@id/skills"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/player_hp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HP"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/player_mp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MP"
+            android:textSize="20sp"/>
+    </LinearLayout>
 </RelativeLayout>

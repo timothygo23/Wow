@@ -3,6 +3,7 @@ package com.agorda.wow.util;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.agorda.wow.Fight;
 import com.agorda.wow.gameElements.db_constants.ObjectId;
 import com.agorda.wow.gameElements.enemy.Enemy;
 import com.agorda.wow.gameElements.equipment.Armor;
@@ -152,4 +153,12 @@ public class GameSave {
         return enemy;
     }
 
+    public static void saveTurn(SharedPreferences.Editor editor, int value){
+        editor.putInt(Fight.TURN, value);
+        editor.commit();
+    }
+
+    public static int getTurn(SharedPreferences dsp){
+        return dsp.getInt(Fight.TURN, Fight.PLAYER_TURN);
+    }
 }
