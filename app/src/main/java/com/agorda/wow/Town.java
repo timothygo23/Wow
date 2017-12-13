@@ -121,9 +121,10 @@ public class Town extends AppCompatActivity{
             public void onClick(View v) {
                 player.getData().setHP(player.getData().getMaxHP());
                 player.getData().setMP(player.getData().getMaxMP());
+                player.setState(PlayerState.TOWN);
+                GameSave.save(dsp.edit(), player);
                 town_tv_hp.setText("HP: " + player.getData().getHP() + "/" + player.getData().getMaxHP());
                 town_tv_mp.setText("MP: " + player.getData().getMP() + "/" + player.getData().getMaxMP());
-                GameSave.save(dsp.edit(), player);
                 Toast.makeText(getBaseContext(), "Player healed", Toast.LENGTH_SHORT).show();
             }
         });

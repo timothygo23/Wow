@@ -6,12 +6,6 @@
     android:background="#fff"
     tools:context="com.agorda.wow.Setup">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/splash_background"
-        android:scaleType="centerCrop"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -46,6 +46,7 @@ public class Weapon extends Equipment{
     public void addSkill(int index, Skill skill){
         skills[index] = skill;
     }
+
     public Skill[] getSkills(){
         return skills;
     }

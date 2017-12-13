@@ -7,28 +7,38 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.Fade;
+import android.transition.TransitionManager;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.agorda.wow.gameElements.db_constants.ObjectId;
 import com.agorda.wow.gameElements.equipment.Weapon;
 import com.agorda.wow.gameElements.player.Player;
 import com.agorda.wow.gameElements.player.PlayerState;
+import com.agorda.wow.ui.MainView;
 import com.agorda.wow.util.DatabaseHelper;
 import com.agorda.wow.util.NotificationUtil;
 
 public class Splash extends AppCompatActivity {
     private final int loadTime = 1500;
 
-    private SharedPreferences dsp;
+    private MainView mainView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        //setContentView(R.layout.activity_splash);
+        mainView = new MainView(getBaseContext());
+        setContentView(mainView);
 
         //sets up the db (creates it when it doesn't exists yet)
-        DatabaseHelper dbh = new DatabaseHelper(this);
-        dbh.getWritableDatabase();
+        //DatabaseHelper dbh = new DatabaseHelper(this);
+        //dbh.getWritableDatabase();
+
+        /*doTransition();
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -50,7 +60,7 @@ public class Splash extends AppCompatActivity {
                     Intent i = null;
                     PlayerState ps = PlayerState.valueOf(dsp.getString("state", "Town"));
 
-                    if(ps == PlayerState.TOWN){
+                    if(ps == PlayerState.TOWN || ps == PlayerState.DEAD){
                         i = new Intent(getBaseContext(), Town.class);
                     }else if(ps == PlayerState.WALKING || ps == PlayerState.CAMPING){
                         i = new Intent(getBaseContext(), Adventure.class);
@@ -63,6 +73,32 @@ public class Splash extends AppCompatActivity {
                 }
 
             }
-        }, loadTime);
+        }, loadTime);*/
+    }
+
+    public void doTransition(){
+        Fade fadeIn = new Fade(Fade.IN);
+        ViewGroup view = (ViewGroup)findViewById(R.id.logo);
+
+        ImageView imageView = new ImageView(getBaseContext());
+        imageView.setImageDrawable(getDrawable(R.drawable.logo));
+        imageView.setScaleX(0.65f);
+        imageView.setScaleY(0.65f);
+
+        TransitionManager.beginDelayedTransition(view, fadeIn);
+
+        view.addView(imageView);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mainView.resume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mainView.pause();
     }
 }
