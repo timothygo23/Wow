@@ -57,13 +57,18 @@ public class PrologueScreen implements Screen {
     }
 
     @Override
+    public void initViewElements() {
+
+    }
+
+    @Override
     public void render(Canvas canvas) {
     }
 
     @Override
     public void update(double deltaTime) {
         //go to town screen
-        gsm.pop(new TownScreen(context, gsm));
+        gsm.pop(new TownScreen(context, gsm), null);
     }
 
     @Override

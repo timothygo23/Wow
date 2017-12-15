@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 public interface Screen {
     void init();
     void initHandler();
+    void initViewElements();
     void render(Canvas canvas);
     void update(double deltaTime);
     void resume();

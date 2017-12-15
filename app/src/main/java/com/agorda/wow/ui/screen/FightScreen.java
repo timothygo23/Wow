@@ -29,6 +29,11 @@ public class FightScreen implements Screen {
     }
 
     @Override
+    public void initViewElements() {
+
+    }
+
+    @Override
     public void render(Canvas canvas) {
 
     }

@@ -60,13 +60,18 @@ public class MapChooseScreen implements Screen {
     }
 
     @Override
+    public void initViewElements() {
+
+    }
+
+    @Override
     public void render(Canvas canvas) {
 
     }
 
     @Override
     public void update(double deltaTime) {
-        gsm.pop(new AdventureScreen(context, gsm));
+        gsm.pop(new AdventureScreen(context, gsm), null);
     }
 
     @Override

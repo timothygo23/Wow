@@ -11,6 +11,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.agorda.wow.ui.screen.SplashScreen;
+import com.agorda.wow.ui.ui_element.UiView;
 
 /**
  * Created by Timothy on 07/12/2017.
@@ -28,7 +29,7 @@ public class MainView extends SurfaceView implements Runnable {
 
     private boolean drawNow = false;
 
-    public MainView(Context context, float scale_width, float scale_height) {
+    public MainView(Context context, float scale_width, float scale_height, MainThreadListener mls) {
         super(context);
 
         SCALE_WIDTH = scale_width;
@@ -36,7 +37,8 @@ public class MainView extends SurfaceView implements Runnable {
 
         surfaceHolder = getHolder();
 
-        gsm = new GameScreenManager();
+        gsm = new GameScreenManager(context);
+        gsm.setMainThreadListener(mls);
         gsm.push(new SplashScreen(context, gsm));
     }
 
@@ -68,7 +70,8 @@ public class MainView extends SurfaceView implements Runnable {
 
             canvas.drawColor(Color.BLACK);
 
-            gsm.getTop().render(canvas);
+            if(gsm.getTop() != null)
+                gsm.getTop().render(canvas);
 
             surfaceHolder.unlockCanvasAndPost(canvas);
         }

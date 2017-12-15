@@ -7,6 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.agorda.wow.R;
 import com.agorda.wow.gameElements.player.PlayerState;
@@ -92,21 +94,26 @@ public class SplashScreen implements Screen, ScreenListener {
     }
 
     @Override
+    public void initViewElements() {
+
+    }
+
+    @Override
     public void switchScreen() {
         /*
             check state of the player then switch the screen accordingly
          */
         if (!dsp.contains("state")) {
-            gsm.pop(new PrologueScreen(context, gsm));
+            gsm.pop(new PrologueScreen(context, gsm), null);
         } else {
             PlayerState ps = PlayerState.valueOf(dsp.getString("state", "Town"));
 
             if(ps == PlayerState.TOWN || ps == PlayerState.DEAD){
-                gsm.pop(new TownScreen(context, gsm));
+                gsm.pop(new TownScreen(context, gsm), null);
             }else if(ps == PlayerState.WALKING || ps == PlayerState.CAMPING || ps == PlayerState.ENCOUNTERED){
-                gsm.pop(new AdventureScreen(context, gsm));
+                gsm.pop(new AdventureScreen(context, gsm), (View) LayoutInflater.from(context).inflate(R.layout.view_adventure, null));
             }else if(ps == PlayerState.FIGHTING){
-                gsm.pop(new FightScreen(context, gsm));
+                gsm.pop(new FightScreen(context, gsm), null);
             }
         }
     }

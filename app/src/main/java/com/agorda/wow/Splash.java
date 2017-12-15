@@ -1,33 +1,31 @@
 package com.agorda.wow;
 
-import android.app.NotificationManager;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Handler;
-import android.preference.PreferenceManager;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.transition.TransitionManager;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
-import com.agorda.wow.gameElements.db_constants.ObjectId;
-import com.agorda.wow.gameElements.equipment.Weapon;
-import com.agorda.wow.gameElements.player.Player;
-import com.agorda.wow.gameElements.player.PlayerState;
+import com.agorda.wow.ui.MainThreadListener;
 import com.agorda.wow.ui.MainView;
-import com.agorda.wow.util.DatabaseHelper;
-import com.agorda.wow.util.NotificationUtil;
+import com.agorda.wow.ui.ui_element.UiView;
 
-public class Splash extends AppCompatActivity {
+public class Splash extends AppCompatActivity implements MainThreadListener{
     private final int loadTime = 1500;
 
-    private MainView mainView;
-    private UiView uiView;
+    private MainView mainView; //surfaceview
+    private UiView uiView; //relativeview
+
+    private View view;
+
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +33,22 @@ public class Splash extends AppCompatActivity {
         //setContentView(R.layout.activity_splash);
         float scale_width = 1080 / getWindowManager().getDefaultDisplay().getWidth();
         float scale_height = 1920 / getWindowManager().getDefaultDisplay().getHeight();
-        mainView = new MainView(getBaseContext(), scale_width, scale_height);
+
         uiView = new UiView(getBaseContext());
+        mainView = new MainView(getBaseContext(), scale_width, scale_height, this);
+
+        handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch(msg.what){
+                    case 0: uiView.removeAllViews();
+                        break;
+                    case 1: uiView.addView(view);
+                        break;
+                }
+                super.handleMessage(msg);
+            }
+        };
 
         FrameLayout frameLayout = new FrameLayout(getBaseContext());
         frameLayout.addView(mainView);
@@ -110,5 +122,16 @@ public class Splash extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         mainView.pause();
+    }
+
+    @Override
+    public void addView(View view) {
+        this.view = view;
+        handler.sendEmptyMessage(1);
+    }
+
+    @Override
+    public void removeViews() {
+        handler.sendEmptyMessage(0);
     }
 }

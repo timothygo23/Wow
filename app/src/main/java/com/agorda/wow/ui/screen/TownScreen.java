@@ -36,7 +36,12 @@ public class TownScreen implements Screen {
 
     @Override
     public void update(double deltaTime) {
-        gsm.pop(new MapChooseScreen(context,gsm));
+        gsm.pop(new MapChooseScreen(context,gsm), null);
+    }
+
+    @Override
+    public void initViewElements() {
+
     }
 
     @Override
