@@ -52,4 +52,5 @@ public class Enemy {
     public int getId(){
         return _id;
     }
+
 }

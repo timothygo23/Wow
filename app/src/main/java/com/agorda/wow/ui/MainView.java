@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.Display;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -14,6 +15,9 @@ import com.agorda.wow.ui.screen.SplashScreen;
  */
 
 public class MainView extends SurfaceView implements Runnable {
+    public static final int WIDTH = 1080, HEIGHT = 1920;
+    public static float SCALE_WIDTH, SCALE_HEIGHT;
+
     private Canvas canvas;
     private GameScreenManager gsm;
 
@@ -22,8 +26,11 @@ public class MainView extends SurfaceView implements Runnable {
 
     private boolean drawNow = false;
 
-    public MainView(Context context) {
+    public MainView(Context context, float scale_width, float scale_height) {
         super(context);
+
+        SCALE_WIDTH = scale_width;
+        SCALE_HEIGHT = scale_height;
 
         surfaceHolder = getHolder();
 
@@ -56,7 +63,11 @@ public class MainView extends SurfaceView implements Runnable {
             }
 
             canvas = surfaceHolder.lockCanvas();
+
+            canvas.drawColor(Color.BLACK);
+
             gsm.getTop().render(canvas);
+
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }
@@ -68,14 +79,14 @@ public class MainView extends SurfaceView implements Runnable {
         gsm.getTop().resume();
     }
 
-    public void pause(){
+    public void pause() {
         drawNow = false;
 
-        while(true){
-            try{
+        while (true) {
+            try {
                 thread.join();
                 break;
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

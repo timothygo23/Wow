@@ -34,7 +34,7 @@ public class ObjectId {
     public static final int SECOND_TOWN = 1;
 
     //enemies
-    public static final int SLIME = 0;
-    public static final int BLUE_SLIME = 1;
-    public static final int RED_SLIME = 2;
+    public static final int PYRO = 0;
+    public static final int PLANT = 1;
+    public static final int GHOST = 2;
 }

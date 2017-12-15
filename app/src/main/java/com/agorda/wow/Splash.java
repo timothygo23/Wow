@@ -31,7 +31,9 @@ public class Splash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_splash);
-        mainView = new MainView(getBaseContext());
+        float scale_width = 1080 / getWindowManager().getDefaultDisplay().getWidth();
+        float scale_height = 1920 / getWindowManager().getDefaultDisplay().getHeight();
+        mainView = new MainView(getBaseContext(), scale_width, scale_height);
         setContentView(mainView);
 
         //sets up the db (creates it when it doesn't exists yet)

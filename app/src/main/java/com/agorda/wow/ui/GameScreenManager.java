@@ -1,5 +1,8 @@
 package com.agorda.wow.ui;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+
 import com.agorda.wow.ui.screen.Screen;
 
 import java.util.Stack;
@@ -10,6 +13,7 @@ import java.util.Stack;
 
 public class GameScreenManager {
     private Stack<Screen> screenStack;
+    private Canvas canvas;
 
     public GameScreenManager(){
         screenStack = new Stack<Screen>();

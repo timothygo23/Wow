@@ -9,6 +9,8 @@ import android.support.v7.app.NotificationCompat;
 import com.agorda.wow.Adventure;
 import com.agorda.wow.Fight;
 import com.agorda.wow.R;
+import com.agorda.wow.Splash;
+import com.agorda.wow.gameElements.enemy.Enemy;
 import com.agorda.wow.gameElements.player.Player;
 import com.agorda.wow.gameElements.town.Town;
 
@@ -33,7 +35,7 @@ public class NotificationCreator {
 
     public void initPendingIntents(){
         //init pending intents that doesnt need any extras
-        Intent i = new Intent (context, Adventure.class);
+        Intent i = new Intent (context, Splash.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         adventureIntent = PendingIntent.getActivity(context, NotificationUtil.PENDING_ADVENTURE, i, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -41,38 +43,38 @@ public class NotificationCreator {
 
     public Notification walkNotifcation (Player player){
         NotificationCompat.Builder builder = (NotificationCompat.Builder) new NotificationCompat.Builder (context)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.notification_walk)
                 .setContentTitle ("Walking to " + player.getDestination().getNextTown().getName())
                 .setContentText ("Steps Left: " + (player.getDestination().getStepsNeeded() - player.getDestination().getSteps()))
                 .setOngoing (true)
                 .setContentIntent (adventureIntent)
-                .addAction(R.mipmap.ic_launcher, "Stop", null);
+                .addAction(R.drawable.notification_walk, "Stop", null);
         return builder.build();
     }
 
-    public Notification fightNotification(Player player){
+    public Notification fightNotification(Player player, Enemy enemy){
         NotificationCompat.Builder builder = (NotificationCompat.Builder) new NotificationCompat.Builder (context)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle ("You've encountered some monsters!")
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle ("You've encountered a "+enemy.getName()+"!")
                 .setContentText ("Player's HP: " + player.getData().getHP() + ", MP: " + player.getData().getMP())
                 .setDefaults(DEFAULT_ALL)
                 .setOngoing(true)
                 .setPriority(Notification.PRIORITY_HIGH)
-                .addAction(R.mipmap.ic_launcher, "Fight", adventureIntent)
-                .addAction(R.mipmap.ic_launcher, "Later", null);
+                .addAction(R.drawable.logo, "Fight", adventureIntent)
+                .addAction(R.drawable.logo, "Later", null);
         return builder.build();
     }
 
     public Notification townNotifcation(Town town){
         NotificationCompat.Builder builder = (NotificationCompat.Builder) new NotificationCompat.Builder (context)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.notification_town)
                 .setContentTitle ("Safefully reached Town " + town.getName() + "!")
                 .setContentText (town.getDescription())
                 .setDefaults(DEFAULT_ALL)
                 .setOngoing(true)
                 .setPriority(Notification.PRIORITY_HIGH)
-                .addAction(R.mipmap.ic_launcher, "Go", adventureIntent)
-                .addAction(R.mipmap.ic_launcher, "Later", null);
+                .addAction(R.drawable.notification_town, "Go", adventureIntent)
+                .addAction(R.drawable.notification_town, "Later", null);
         return builder.build();
     }
 }

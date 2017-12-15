@@ -3,6 +3,7 @@ package com.agorda.wow.gameElements.db_constants;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.agorda.wow.R;
 import com.agorda.wow.gameElements.enemy.Enemy;
 import com.agorda.wow.gameElements.equipment.Armor;
 import com.agorda.wow.gameElements.equipment.Potion;
@@ -80,8 +81,8 @@ public class ObjectCreation {
     }
 
     private void createEnemies(){
-        databaseHelper.addEnemy(db, new Enemy(ObjectId.SLIME, "Slime", 10, 3));
-        databaseHelper.addEnemy(db, new Enemy(ObjectId.BLUE_SLIME, "Blue Slime", 15, 5));
-        databaseHelper.addEnemy(db, new Enemy(ObjectId.RED_SLIME, "Red Slime", 20, 6));
+        databaseHelper.addEnemy(db, new Enemy(ObjectId.PYRO, "Pyro", 20, 5));
+        databaseHelper.addEnemy(db, new Enemy(ObjectId.PLANT, "Sunflower", 15, 5));
+        databaseHelper.addEnemy(db, new Enemy(ObjectId.GHOST, "Ghost", 20, 6));
     }
 }
