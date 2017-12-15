@@ -1,6 +1,12 @@
 package com.agorda.wow.ui;
 
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.view.View;
+
 import com.agorda.wow.ui.screen.Screen;
+import com.agorda.wow.ui.ui_element.UiView;
 
 import java.util.Stack;
 
@@ -9,10 +15,15 @@ import java.util.Stack;
  */
 
 public class GameScreenManager {
+    private Context context;
     private Stack<Screen> screenStack;
+    private MainThreadListener mainThreadListener;
 
-    public GameScreenManager(){
+    private View currentView;
+
+    public GameScreenManager(Context context){
         screenStack = new Stack<Screen>();
+        this.context = context;
     }
 
     public Screen getTop(){
@@ -23,9 +34,21 @@ public class GameScreenManager {
         screenStack.push(screen);
     }
 
-    public void pop(Screen screen){
+    public void pop(Screen screen, View view){
         screenStack.pop();
+        mainThreadListener.removeViews();
         screenStack.push(screen);
+        if(view != null) {
+            mainThreadListener.addView(view);
+            this.currentView = view;
+            screen.initViewElements();
+        }
     }
+
+    public void setMainThreadListener(MainThreadListener mainThreadListener){
+        this.mainThreadListener = mainThreadListener;
+    }
+
+    public View getCurrentView(){return currentView;}
 
 }

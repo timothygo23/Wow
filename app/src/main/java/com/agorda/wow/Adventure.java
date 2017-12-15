@@ -136,7 +136,7 @@ public class Adventure extends AppCompatActivity implements StepCounterListener 
                     goToFightActivity();
                 }else{
                     NotificationUtil.cancel(NotificationUtil.NOTIFICATION_WALKING);
-                    NotificationUtil.notify(NotificationUtil.NOTIFICATION_ENEMY, notificationCreator.fightNotification(player));
+                    NotificationUtil.notify(NotificationUtil.NOTIFICATION_ENEMY, notificationCreator.fightNotification(player, enemy));
                 }
             }
             adventure_tv_steps.setText("Steps: " + player.getDestination().getSteps());

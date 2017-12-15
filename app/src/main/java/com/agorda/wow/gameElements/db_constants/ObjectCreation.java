@@ -3,6 +3,7 @@ package com.agorda.wow.gameElements.db_constants;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.agorda.wow.R;
 import com.agorda.wow.gameElements.enemy.Enemy;
 import com.agorda.wow.gameElements.equipment.Armor;
 import com.agorda.wow.gameElements.equipment.Potion;
@@ -39,22 +40,20 @@ public class ObjectCreation {
     }
 
     private void createWeapons(){
-        databaseHelper.addWeapon(db, new Weapon(ObjectId.WOODEN_SWORD, "Wooden Sword", "Just a normal wooden sword.", Stat.STR, 1),
-                ObjectId.BASIC_HACK,
-                ObjectId.BASIC_SLASH,
-                ObjectId.BASIC_DICE,
-                ObjectId.BASIC_SLICE);
+        databaseHelper.addWeapon(db, new Weapon(ObjectId.DAGGER, "Dagger", "Just a normal dagger.", Stat.AGI, 15),
+                ObjectId.DAGGER_SKILL1,
+                ObjectId.DAGGER_SKILL2,
+                ObjectId.DAGGER_SKILL3);
 
-        databaseHelper.addWeapon(db, new Weapon(ObjectId.GOLDEN_SWORD, "Golden Sword", "Super rare special one of a kind sword.", Stat.STR, 999),
-                ObjectId.SPECIAL_HACK,
-                ObjectId.SPECIAL_SLASH,
-                ObjectId.SPECIAL_DICE,
-                ObjectId.SPECIAL_SLICE);
+        databaseHelper.addWeapon(db, new Weapon(ObjectId.HAMMER, "Hammer", "Just a normal hammer.", Stat.STR, 15),
+                ObjectId.HAMMER_SKILL1,
+                ObjectId.HAMMER_SKILL2,
+                ObjectId.HAMMER_SKILL3);
     }
 
     private void createArmors(){
-        databaseHelper.addArmor(db, new Armor(ObjectId.WOODEN_HELMET, "Wooden Helmeet", "Noting special.", Stat.STR, 2, 1, 10, 5));
-        databaseHelper.addArmor(db, new Armor(ObjectId.GOLDEN_HELMET, "Golden Helmeet", "Clearly a hacked item.", Stat.STR, 999, 999, 999, 999));
+        databaseHelper.addArmor(db, new Armor(ObjectId.HAT, "Witch's Hat", "Light and fast.", Stat.AGI, 2, 15, 10, 5));
+        databaseHelper.addArmor(db, new Armor(ObjectId.STEEL_ARMOUR, "Steel Armour", "Heavy and powerful.", Stat.STR, 4, 25, 15, 7));
     }
 
     private void createPotions(){
@@ -63,15 +62,13 @@ public class ObjectCreation {
     }
 
     private void createSkills(){
-        databaseHelper.addSkill(db, new Skill(ObjectId.BASIC_HACK, "HACK", 2, 1));
-        databaseHelper.addSkill(db, new Skill(ObjectId.BASIC_SLASH, "SLASH", 4, 2));
-        databaseHelper.addSkill(db, new Skill(ObjectId.BASIC_DICE, "DICE", 6, 3));
-        databaseHelper.addSkill(db, new Skill(ObjectId.BASIC_SLICE, "SLICE", 8, 4));
+        databaseHelper.addSkill(db, new Skill(ObjectId.DAGGER_SKILL1, "SLICE", 4, 2));
+        databaseHelper.addSkill(db, new Skill(ObjectId.DAGGER_SKILL2, "POISON???", 6, 3));
+        databaseHelper.addSkill(db, new Skill(ObjectId.DAGGER_SKILL3, "NIGHT CRAWLER", 8, 4));
 
-        databaseHelper.addSkill(db, new Skill(ObjectId.SPECIAL_HACK, "EPIC HACK", 999, 0));
-        databaseHelper.addSkill(db, new Skill(ObjectId.SPECIAL_SLASH, "EPIC SLASH", 999, 0));
-        databaseHelper.addSkill(db, new Skill(ObjectId.SPECIAL_DICE, "EPIC DICE", 999, 0));
-        databaseHelper.addSkill(db, new Skill(ObjectId.SPECIAL_SLICE, "EPIC SLICE", 999, 0));
+        databaseHelper.addSkill(db, new Skill(ObjectId.HAMMER_SKILL1, "JUDGEMENT", 4, 2));
+        databaseHelper.addSkill(db, new Skill(ObjectId.HAMMER_SKILL2, "SMASH", 6, 3));
+        databaseHelper.addSkill(db, new Skill(ObjectId.HAMMER_SKILL3, "SCREAM", 8, 4));
     }
 
     private void createTowns(){
@@ -80,8 +77,8 @@ public class ObjectCreation {
     }
 
     private void createEnemies(){
-        databaseHelper.addEnemy(db, new Enemy(ObjectId.SLIME, "Slime", 10, 3));
-        databaseHelper.addEnemy(db, new Enemy(ObjectId.BLUE_SLIME, "Blue Slime", 15, 5));
-        databaseHelper.addEnemy(db, new Enemy(ObjectId.RED_SLIME, "Red Slime", 20, 6));
+        databaseHelper.addEnemy(db, new Enemy(ObjectId.PYRO, "Pyro", 20, 5));
+        databaseHelper.addEnemy(db, new Enemy(ObjectId.PLANT, "Sunflower", 15, 5));
+        databaseHelper.addEnemy(db, new Enemy(ObjectId.GHOST, "Ghost", 20, 6));
     }
 }

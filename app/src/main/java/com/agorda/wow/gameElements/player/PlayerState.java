@@ -5,5 +5,5 @@ package com.agorda.wow.gameElements.player;
  */
 
 public enum PlayerState {
-    WALKING, CAMPING, FIGHTING, TOWN, DEAD;
+    WALKING, CAMPING, ENCOUNTERED, FIGHTING, TOWN, DEAD;
 }

@@ -83,8 +83,8 @@ public class GameSave {
                         PlayerState.valueOf(dsp.getString("state", "TOWN")));
 
         //equipment
-        player.equip(databaseHelper.getWeapon(dsp.getInt("weapon", ObjectId.WOODEN_SWORD)));
-        player.equip(databaseHelper.getArmor(dsp.getInt("armor", ObjectId.WOODEN_HELMET)));
+        player.equip(databaseHelper.getWeapon(dsp.getInt("weapon", ObjectId.DAGGER)));
+        player.equip(databaseHelper.getArmor(dsp.getInt("armor", ObjectId.HAT)));
         int potion = dsp.getInt("potion", -1);
         if(potion != -1){
             player.equip(databaseHelper.getPotion(potion));
