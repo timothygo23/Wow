@@ -12,6 +12,7 @@ import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.agorda.wow.gameElements.db_constants.ObjectId;
@@ -26,6 +27,7 @@ public class Splash extends AppCompatActivity {
     private final int loadTime = 1500;
 
     private MainView mainView;
+    private UiView uiView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,13 @@ public class Splash extends AppCompatActivity {
         float scale_width = 1080 / getWindowManager().getDefaultDisplay().getWidth();
         float scale_height = 1920 / getWindowManager().getDefaultDisplay().getHeight();
         mainView = new MainView(getBaseContext(), scale_width, scale_height);
-        setContentView(mainView);
+        uiView = new UiView(getBaseContext());
+
+        FrameLayout frameLayout = new FrameLayout(getBaseContext());
+        frameLayout.addView(mainView);
+        frameLayout.addView(uiView);
+
+        setContentView(frameLayout);
 
         //sets up the db (creates it when it doesn't exists yet)
         //DatabaseHelper dbh = new DatabaseHelper(this);

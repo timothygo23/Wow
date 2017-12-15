@@ -16,7 +16,7 @@ import com.agorda.wow.ui.MainView;
  * Created by Timothy on 14/12/2017.
  */
 
-public class PlayerStatus extends View implements View.OnTouchListener {
+public class PlayerStatus extends View {
     private Context context;
 
     private Player player;
@@ -57,9 +57,6 @@ public class PlayerStatus extends View implements View.OnTouchListener {
         weapon = new PlayerStatusIcon(getContext(), player.getData().getWeapon(), MainView.WIDTH / 3 / 2, mp_bar.getThisBottom() + 90 * MainView.SCALE_HEIGHT);
         armour = new PlayerStatusIcon(getContext(), player.getData().getArmor(), MainView.WIDTH / 3 * 2 - MainView.WIDTH / 3 / 2, mp_bar.getThisBottom() + 90 * MainView.SCALE_HEIGHT);
         potion = new PlayerStatusIcon(getContext(), player.getData().getPotion(), MainView.WIDTH - MainView.WIDTH / 3 / 2, mp_bar.getThisBottom() + 90 * MainView.SCALE_HEIGHT);
-        weapon.setOnTouchListener(this);
-        armour.setOnTouchListener(this);
-        potion.setOnTouchListener(this);
     }
 
     @Override
@@ -74,9 +71,4 @@ public class PlayerStatus extends View implements View.OnTouchListener {
         potion.draw(canvas);
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        Toast.makeText(context, "TANGINA", Toast.LENGTH_SHORT).show();
-        return false;
-    }
 }

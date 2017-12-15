@@ -4,7 +4,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -95,5 +97,4 @@ public class MainView extends SurfaceView implements Runnable {
 
         gsm.getTop().pause();
     }
-
 }

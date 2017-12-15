@@ -35,12 +35,6 @@ public class PlayerStatusIcon extends View {
         initIcon();
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        Toast.makeText(context, "x: " + event.getX(), Toast.LENGTH_SHORT).show();
-        return super.onTouchEvent(event);
-    }
-
     public void initIcon(){
         if(equipment != null) {
             if (equipment instanceof Weapon) {
