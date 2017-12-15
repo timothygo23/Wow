@@ -4,9 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -19,7 +16,10 @@ import com.agorda.wow.ui.scale.ScaleBitmap;
 
 public class PlayerSprite extends View{
     private Bitmap sprite;
+    private Animation animation;
     private float x, y, widthScale, heightScale;
+
+    private boolean animate;
 
     public PlayerSprite(Context context, float x, float y, float widthScale, float heightScale) {
         super(context);
@@ -28,15 +28,50 @@ public class PlayerSprite extends View{
         this.y = y;
         this.widthScale = widthScale;
         this.heightScale = heightScale;
+        animate = false;
         sprite = BitmapFactory.decodeResource(getResources(), R.drawable.player);
         sprite = ScaleBitmap.scaleBitmap(sprite,
                 sprite.getWidth() * widthScale, sprite.getHeight() * heightScale);
+
+        /* init animation here */
+        initAnimation();
+    }
+
+    public void initAnimation(){
+        Bitmap frame_1 = BitmapFactory.decodeResource(getResources(), R.drawable.player_frame1);
+        Bitmap frame_2 = BitmapFactory.decodeResource(getResources(), R.drawable.player_frame2);
+        Bitmap frame_3 = BitmapFactory.decodeResource(getResources(), R.drawable.player_frame3);
+        Bitmap frame_4 = BitmapFactory.decodeResource(getResources(), R.drawable.player_frame4);
+
+        animation = new Animation(100, 4);
+        animation.setAnimation(new Bitmap[]{
+            ScaleBitmap.scaleBitmap(frame_1, frame_1.getWidth() * widthScale, frame_1.getHeight() * heightScale),
+                ScaleBitmap.scaleBitmap(frame_2, frame_2.getWidth() * widthScale, frame_2.getHeight() * heightScale),
+                ScaleBitmap.scaleBitmap(frame_3, frame_3.getWidth() * widthScale, frame_3.getHeight() * heightScale),
+                ScaleBitmap.scaleBitmap(frame_4, frame_4.getWidth() * widthScale, frame_4.getHeight() * heightScale)
+        });
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawBitmap(sprite, x, y - sprite.getHeight() + 9 * heightScale, null);
+        if(!animate)
+            canvas.drawBitmap(sprite, x, y - sprite.getHeight() + 9 * heightScale, null);
+        else
+            canvas.drawBitmap(animation.getCurrentFrame(), x, y - sprite.getHeight() + 9 * heightScale, null);
     }
 
+    public void update(double deltaTime){
+        if(animate)
+            animation.animate(deltaTime);
+    }
+
+    public void startAnimation(){
+        animate = true;
+    }
+
+    public void endAnimation(){
+        animate = false;
+        animation.reset();
+    }
 }

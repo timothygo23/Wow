@@ -80,8 +80,8 @@ public class PrologueScreen implements Screen {
         Player player = new Player (name, databaseHelper.getTown(ObjectId.START_TOWN), PlayerState.TOWN);
 
         //beginner items here
-        player.equip(databaseHelper.getWeapon(ObjectId.WOODEN_SWORD));
-        player.equip(databaseHelper.getArmor(ObjectId.WOODEN_HELMET));
+        player.equip(databaseHelper.getWeapon(ObjectId.DAGGER));
+        player.equip(databaseHelper.getArmor(ObjectId.HAT));
 
         //give potions to new user
         int freePotions = 3;

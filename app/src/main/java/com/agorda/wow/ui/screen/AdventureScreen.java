@@ -90,7 +90,7 @@ public class AdventureScreen implements Screen, StepCounterListener {
         /*
             create header here
          */
-        playerStatus = new PlayerStatus(context, 0, background.getBottom());
+        playerStatus = new PlayerStatus(context,player, 0, background.getBottom());
     }
 
     public void initBackend(){
@@ -162,11 +162,13 @@ public class AdventureScreen implements Screen, StepCounterListener {
     public void update(double deltaTime) {
         background.update();
         if(backgroundScrollTimer > 0) {
-            backgroundScrollTimer -= deltaTime;
+            backgroundScrollTimer -= 10;
         }else{
             background.setEnabled(false);
+            playerSprite.endAnimation();
         }
 
+        playerSprite.update(deltaTime);
     }
 
     @Override
@@ -207,6 +209,7 @@ public class AdventureScreen implements Screen, StepCounterListener {
         if(player.walk()){
             backgroundScrollTimer = 250;
             background.setEnabled(true);
+            playerSprite.startAnimation();
 
             if(!isVisible)
                 NotificationUtil.notify(NotificationUtil.NOTIFICATION_WALKING, notificationCreator.walkNotifcation(player));

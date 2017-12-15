@@ -17,13 +17,12 @@ public class Weapon extends Equipment{
     public static final String COLUMN_SKILL_ID_1 = "skill_id_1";
     public static final String COLUMN_SKILL_ID_2 = "skill_id_2";
     public static final String COLUMN_SKILL_ID_3 = "skill_id_3";
-    public static final String COLUMN_SKILL_ID_4 = "skill_id_4";
 
     private Skill[] skills;
 
     public Weapon(int id, String name, String description, Stat stat, int price) {
         super(id, name, description, stat, price);
-        skills = new Skill[4];
+        skills = new Skill[3];
     }
     public void updateSkillsDamage(Armor armor){
         if(this.getStat() == armor.getStat()) {

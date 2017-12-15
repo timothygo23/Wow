@@ -7,23 +7,23 @@ package com.agorda.wow.gameElements.db_constants;
 public class ObjectId {
 
     //weapons
-    public static final int WOODEN_SWORD = 0;
-    public static final int GOLDEN_SWORD = 1;
+    public static final int DAGGER = 0;
+    public static final int HAMMER = 1;
 
     //skills
-    public static final int BASIC_HACK = 0;
-    public static final int BASIC_SLASH= 1;
-    public static final int BASIC_DICE = 2;
-    public static final int BASIC_SLICE = 3;
+    //dagger
+    public static final int DAGGER_SKILL1 = 0;
+    public static final int DAGGER_SKILL2 = 1;
+    public static final int DAGGER_SKILL3 = 2;
 
-    public static final int SPECIAL_HACK = 4;
-    public static final int SPECIAL_SLASH = 5;
-    public static final int SPECIAL_DICE = 6;
-    public static final int SPECIAL_SLICE = 7;
+    //hammer
+    public static final int HAMMER_SKILL1 = 4;
+    public static final int HAMMER_SKILL2 = 5;
+    public static final int HAMMER_SKILL3 = 6;
 
     //armors
-    public static final int WOODEN_HELMET = 0;
-    public static final int GOLDEN_HELMET = 1;
+    public static final int HAT = 0;
+    public static final int STEEL_ARMOUR = 1;
 
     //potions
     public static final int HP_REGEN = 0;

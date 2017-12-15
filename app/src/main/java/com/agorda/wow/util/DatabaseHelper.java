@@ -42,8 +42,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + Weapon.COLUMN_PRICE + " INTEGER, "
                 + Weapon.COLUMN_SKILL_ID_1 + " INTEGER, "
                 + Weapon.COLUMN_SKILL_ID_2 + " INTEGER, "
-                + Weapon.COLUMN_SKILL_ID_3 + " INTEGER, "
-                + Weapon.COLUMN_SKILL_ID_4 + " INTEGER"
+                + Weapon.COLUMN_SKILL_ID_3 + " INTEGER "
                 + ");";
 
         skillSQL = "CREATE TABLE " + Skill.TABLE_NAME + " ("
@@ -121,7 +120,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addWeapon (SQLiteDatabase db, Weapon weapon, long skill_1, long skill_2, long skill_3, long skill_4) {
+    public void addWeapon (SQLiteDatabase db, Weapon weapon, long skill_1, long skill_2, long skill_3) {
         ContentValues cv = new ContentValues();
         cv.put(Weapon.COLUMN_ID, weapon.getId());
         cv.put(Weapon.COLUMN_NAME, weapon.getName());
@@ -131,12 +130,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(Weapon.COLUMN_SKILL_ID_1, skill_1);
         cv.put(Weapon.COLUMN_SKILL_ID_2, skill_2);
         cv.put(Weapon.COLUMN_SKILL_ID_3, skill_3);
-        cv.put(Weapon.COLUMN_SKILL_ID_4, skill_4);
 
         db.insert(Weapon.TABLE_NAME, null, cv);
     }
 
-    public boolean addWeapon (Weapon weapon, long weaponId, long skill_1, long skill_2, long skill_3, long skill_4) {
+    public boolean addWeapon (Weapon weapon, long weaponId, long skill_1, long skill_2, long skill_3) {
         SQLiteDatabase db = getWritableDatabase ();
 
         ContentValues cv = new ContentValues();
@@ -148,14 +146,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(Weapon.COLUMN_SKILL_ID_1, skill_1);
         cv.put(Weapon.COLUMN_SKILL_ID_2, skill_2);
         cv.put(Weapon.COLUMN_SKILL_ID_3, skill_3);
-        cv.put(Weapon.COLUMN_SKILL_ID_4, skill_4);
 
         long id = db.insert(Weapon.TABLE_NAME, null, cv);
         db.close();
         return (id != 1);
     }
 
-    public boolean updateWeapon (Weapon weapon, long id, long skill_1, long skill_2, long skill_3, long skill_4) {
+    public boolean updateWeapon (Weapon weapon, long id, long skill_1, long skill_2, long skill_3) {
         SQLiteDatabase db = getWritableDatabase ();
 
         ContentValues cv = new ContentValues();
@@ -166,7 +163,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(Weapon.COLUMN_SKILL_ID_1, skill_1);
         cv.put(Weapon.COLUMN_SKILL_ID_2, skill_2);
         cv.put(Weapon.COLUMN_SKILL_ID_3, skill_3);
-        cv.put(Weapon.COLUMN_SKILL_ID_4, skill_4);
 
         int rows = db.update(Weapon.TABLE_NAME, cv, Weapon.COLUMN_ID + " =?", new String[]{id + ""});
         db.close();
@@ -194,13 +190,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             int skill_1 = c.getInt(c.getColumnIndex(Weapon.COLUMN_SKILL_ID_1));
             int skill_2 = c.getInt(c.getColumnIndex(Weapon.COLUMN_SKILL_ID_2));
             int skill_3 = c.getInt(c.getColumnIndex(Weapon.COLUMN_SKILL_ID_3));
-            int skill_4 = c.getInt(c.getColumnIndex(Weapon.COLUMN_SKILL_ID_4));
 
             w = new Weapon((int)id, name, description, stat, price);
             w.addSkill(skill_1, getSkill(skill_1));
             w.addSkill(skill_2, getSkill(skill_2));
             w.addSkill(skill_3, getSkill(skill_3));
-            w.addSkill(skill_4, getSkill(skill_4));
         }
 
         c.close();
